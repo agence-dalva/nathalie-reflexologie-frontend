@@ -152,6 +152,20 @@ export function getTimeslots(serviceId: number, date: string) {
   );
 }
 
+export function getAvailabilityDays(
+  serviceId: number,
+  from: string,
+  days: number,
+) {
+  // Léger cache : cette vue "jour dispo/pas dispo" tolère 60s de latence
+  // (contrairement aux créneaux horaires exacts, qui restent no-store),
+  // et évite de refaire ~21 requêtes internes à chaque retour sur l'étape.
+  return apiFetch<string[]>(
+    `/bookings/availability-days?serviceId=${serviceId}&from=${from}&days=${days}`,
+    { next: { revalidate: 60 } },
+  );
+}
+
 export function createBooking(
   payload: {
     serviceId: number;

@@ -1,9 +1,19 @@
 "use client";
 
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { useBookingStore } from "@/stores/booking-store";
+import {
+  type FieldErrors,
+  validateBeneficiary,
+  validateCustomer,
+} from "./step-details.schema";
+
+function FieldError({ message }: { message?: string }) {
+  if (!message) return null;
+  return <p className="mt-2 text-sm leading-relaxed text-red-600">{message}</p>;
+}
 
 export function StepDetails() {
   const bookingFor = useBookingStore((s) => s.bookingFor);
@@ -13,13 +23,31 @@ export function StepDetails() {
   const setBeneficiary = useBookingStore((s) => s.setBeneficiary);
   const goToStep = useBookingStore((s) => s.goToStep);
 
+  const [customerErrors, setCustomerErrors] = useState<FieldErrors>({});
+  const [beneficiaryErrors, setBeneficiaryErrors] = useState<FieldErrors>({});
+
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    const nextCustomerErrors = validateCustomer(customer);
+    const nextBeneficiaryErrors =
+      bookingFor === "other" ? validateBeneficiary(beneficiary) : {};
+
+    setCustomerErrors(nextCustomerErrors);
+    setBeneficiaryErrors(nextBeneficiaryErrors);
+
+    if (
+      Object.keys(nextCustomerErrors).length > 0 ||
+      Object.keys(nextBeneficiaryErrors).length > 0
+    ) {
+      return;
+    }
+
     goToStep("confirmation");
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} noValidate className="space-y-5">
       {bookingFor === "other" && (
         <div className="rounded-xl border border-terracotta-400/40 bg-terracotta-400/10 p-5">
           <p className="text-sm font-medium text-sage-900">
@@ -44,6 +72,7 @@ export function StepDetails() {
                 onChange={(e) => setBeneficiary({ firstname: e.target.value })}
                 className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none transition-colors focus:border-sage-500"
               />
+              <FieldError message={beneficiaryErrors.firstname} />
             </div>
             <div>
               <label
@@ -59,6 +88,7 @@ export function StepDetails() {
                 onChange={(e) => setBeneficiary({ lastname: e.target.value })}
                 className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none transition-colors focus:border-sage-500"
               />
+              <FieldError message={beneficiaryErrors.lastname} />
             </div>
           </div>
           <div className="mt-5">
@@ -66,14 +96,16 @@ export function StepDetails() {
               htmlFor="beneficiary-phone"
               className="mb-1.5 block text-sm font-medium text-stone-600"
             >
-              Téléphone (facultatif)
+              Téléphone
             </label>
             <PhoneInput
               id="beneficiary-phone"
+              required
               value={beneficiary.phone}
               onChange={(value) => setBeneficiary({ phone: value })}
               className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none transition-colors focus:border-sage-500"
             />
+            <FieldError message={beneficiaryErrors.phone} />
           </div>
         </div>
       )}
@@ -97,6 +129,7 @@ export function StepDetails() {
             onChange={(e) => setCustomer({ firstname: e.target.value })}
             className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none transition-colors focus:border-sage-500"
           />
+          <FieldError message={customerErrors.firstname} />
         </div>
         <div>
           <label
@@ -112,6 +145,7 @@ export function StepDetails() {
             onChange={(e) => setCustomer({ lastname: e.target.value })}
             className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none transition-colors focus:border-sage-500"
           />
+          <FieldError message={customerErrors.lastname} />
         </div>
       </div>
 
@@ -131,6 +165,7 @@ export function StepDetails() {
             onChange={(e) => setCustomer({ email: e.target.value })}
             className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none transition-colors focus:border-sage-500"
           />
+          <FieldError message={customerErrors.email} />
         </div>
         <div>
           <label
@@ -141,10 +176,12 @@ export function StepDetails() {
           </label>
           <PhoneInput
             id="phone"
+            required
             value={customer.phone}
             onChange={(value) => setCustomer({ phone: value })}
             className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none transition-colors focus:border-sage-500"
           />
+          <FieldError message={customerErrors.phone} />
         </div>
       </div>
 

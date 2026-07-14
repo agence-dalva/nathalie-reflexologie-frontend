@@ -51,7 +51,7 @@ export function ReservationFlow({
 
   return (
     <section ref={topRef} className="py-10 scroll-mt-28 sm:py-16">
-      <Container className="max-w-3xl">
+      <Container className={step === "slot" ? "max-w-4xl" : "max-w-3xl"}>
         <div className="text-center">
           <p className="text-sm font-semibold tracking-[0.2em] text-sage-500 uppercase">
             Réservation en ligne

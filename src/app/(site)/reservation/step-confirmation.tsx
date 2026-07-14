@@ -126,6 +126,16 @@ export function StepConfirmation() {
             {customer.phone && <Row label="Téléphone" value={customer.phone} />}
           </div>
         </div>
+        {customer.notes && (
+          <div className="border-t border-sage-100 pt-4">
+            <p className="text-[0.68rem] font-medium tracking-wide text-stone-400 uppercase">
+              Message
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-stone-700">
+              {customer.notes}
+            </p>
+          </div>
+        )}
       </div>
 
       {errorMessage && (

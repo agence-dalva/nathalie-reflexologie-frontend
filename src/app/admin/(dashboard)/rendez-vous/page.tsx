@@ -8,9 +8,11 @@ import {
   type Booking,
 } from "@/lib/api";
 import { Button } from "@/components/ui/button";
+import { ConfirmModal } from "@/components/ui/confirm-modal";
 import { formatPrice } from "@/lib/format";
 import { NewBookingModal } from "./new-booking-modal";
 import { EditBookingModal } from "./edit-booking-modal";
+import { BookingDetailModal } from "./booking-detail-modal";
 
 const dateFormatter = new Intl.DateTimeFormat("fr-FR", {
   weekday: "short",
@@ -30,7 +32,9 @@ export default function AdminBookingsPage() {
   const [filter, setFilter] = useState<Filter>("upcoming");
   const [modalOpen, setModalOpen] = useState(false);
   const [editingBooking, setEditingBooking] = useState<Booking | null>(null);
+  const [viewingBooking, setViewingBooking] = useState<Booking | null>(null);
   const [cancellingId, setCancellingId] = useState<number | null>(null);
+  const [confirmCancelBooking, setConfirmCancelBooking] = useState<Booking | null>(null);
 
   function refresh() {
     getBookingsAdmin()
@@ -60,6 +64,8 @@ export default function AdminBookingsPage() {
     setCancellingId(id);
     try {
       await cancelBookingAdmin(id);
+      setViewingBooking(null);
+      setConfirmCancelBooking(null);
       refresh();
     } catch {
       setError("L'annulation a échoué.");
@@ -120,7 +126,7 @@ export default function AdminBookingsPage() {
 
       {filtered !== null && filtered.length > 0 && (
         <div className="mt-6 overflow-hidden rounded-2xl border border-sage-100 bg-white">
-          <div className="hidden grid-cols-[1.4fr_1.4fr_1fr_0.8fr_auto] gap-4 border-b border-sage-100 px-6 py-3 text-xs font-semibold tracking-wide text-stone-400 uppercase sm:grid">
+          <div className="hidden grid-cols-[1.4fr_1.4fr_1fr_0.8fr_10rem] gap-4 border-b border-sage-100 px-6 py-3 text-xs font-semibold tracking-wide text-stone-400 uppercase sm:grid">
             <span>Client</span>
             <span>Prestation</span>
             <span>Date</span>
@@ -131,7 +137,8 @@ export default function AdminBookingsPage() {
             {filtered.map((booking) => (
               <li
                 key={booking.id}
-                className="grid grid-cols-1 gap-2 px-6 py-4 sm:grid-cols-[1.4fr_1.4fr_1fr_0.8fr_auto] sm:items-center sm:gap-4"
+                onClick={() => setViewingBooking(booking)}
+                className="grid cursor-pointer grid-cols-1 gap-2 px-6 py-4 transition-colors hover:bg-sage-50/60 sm:grid-cols-[1.4fr_1.4fr_1fr_0.8fr_10rem] sm:items-center sm:gap-4"
               >
                 <div>
                   <p className="text-sm font-medium text-stone-700">
@@ -162,14 +169,20 @@ export default function AdminBookingsPage() {
                     <>
                       <button
                         type="button"
-                        onClick={() => setEditingBooking(booking)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setEditingBooking(booking);
+                        }}
                         className="cursor-pointer text-sm text-sage-600 hover:underline"
                       >
                         Modifier
                       </button>
                       <button
                         type="button"
-                        onClick={() => handleCancel(booking.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setConfirmCancelBooking(booking);
+                        }}
                         disabled={cancellingId === booking.id}
                         className="cursor-pointer text-sm text-red-600 hover:underline"
                       >
@@ -194,6 +207,32 @@ export default function AdminBookingsPage() {
         booking={editingBooking}
         onClose={() => setEditingBooking(null)}
         onUpdated={refresh}
+      />
+
+      <BookingDetailModal
+        booking={viewingBooking}
+        onClose={() => setViewingBooking(null)}
+        onEdit={(booking) => {
+          setViewingBooking(null);
+          setEditingBooking(booking);
+        }}
+        onCancel={handleCancel}
+        cancelling={cancellingId === viewingBooking?.id}
+      />
+
+      <ConfirmModal
+        open={Boolean(confirmCancelBooking)}
+        onClose={() => setConfirmCancelBooking(null)}
+        onConfirm={() => confirmCancelBooking && handleCancel(confirmCancelBooking.id)}
+        title="Annuler ce rendez-vous ?"
+        description={
+          confirmCancelBooking
+            ? `Un email d'annulation sera envoyé à ${confirmCancelBooking.customerEmail}. Cette action est irréversible.`
+            : ""
+        }
+        confirmLabel="Oui, annuler le rendez-vous"
+        cancelLabel="Retour"
+        loading={cancellingId === confirmCancelBooking?.id}
       />
     </div>
   );
