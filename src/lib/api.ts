@@ -80,7 +80,8 @@ export type ClientListItem = Client & {
   _count: { bookings: number };
 };
 
-export type EmailTemplateType = "CONFIRMATION" | "CANCELLATION" | "MODIFICATION";
+export type EmailTemplateType =
+  "CONFIRMATION" | "CANCELLATION" | "MODIFICATION";
 
 export type EmailTemplate = {
   type: EmailTemplateType;
@@ -262,7 +263,9 @@ export function deleteService(id: number) {
 // --- Availability (admin) ---
 
 export function getAvailabilities() {
-  return apiFetch<Availability[]>("/availability/recurring", { cache: "no-store" });
+  return apiFetch<Availability[]>("/availability/recurring", {
+    cache: "no-store",
+  });
 }
 
 export function createAvailability(payload: {
@@ -281,7 +284,9 @@ export function deleteAvailability(id: number) {
 }
 
 export function getExceptions() {
-  return apiFetch<Exception[]>("/availability/exceptions", { cache: "no-store" });
+  return apiFetch<Exception[]>("/availability/exceptions", {
+    cache: "no-store",
+  });
 }
 
 export function createException(payload: {
@@ -298,6 +303,35 @@ export function createException(payload: {
 
 export function deleteException(id: number) {
   return apiFetch<void>(`/availability/exceptions/${id}`, { method: "DELETE" });
+}
+
+export function createExceptionRange(payload: {
+  startDate: string;
+  endDate: string;
+  isClosed: boolean;
+  startTime?: string;
+  endTime?: string;
+}) {
+  return apiFetch<Exception[]>("/availability/exceptions/range", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function importFrenchHolidays(year: number) {
+  return apiFetch<Exception[]>(
+    "/availability/exceptions/import-french-holidays",
+    {
+      method: "POST",
+      body: JSON.stringify({ year }),
+    },
+  );
+}
+
+export function removeAllExceptions() {
+  return apiFetch<{ count: number }>("/availability/exceptions", {
+    method: "DELETE",
+  });
 }
 
 // --- Bookings (admin) ---
@@ -348,7 +382,9 @@ export function updateBookingAdmin(
 // --- Dashboard ---
 
 export function getDashboardOverview() {
-  return apiFetch<DashboardOverview>("/dashboard/overview", { cache: "no-store" });
+  return apiFetch<DashboardOverview>("/dashboard/overview", {
+    cache: "no-store",
+  });
 }
 
 // --- Clients (admin) ---
@@ -368,7 +404,9 @@ export function getEmailTemplates() {
 }
 
 export function getEmailTemplate(type: EmailTemplateType) {
-  return apiFetch<EmailTemplate>(`/email-templates/${type}`, { cache: "no-store" });
+  return apiFetch<EmailTemplate>(`/email-templates/${type}`, {
+    cache: "no-store",
+  });
 }
 
 export function updateEmailTemplate(
@@ -385,8 +423,11 @@ export function previewEmailTemplate(
   type: EmailTemplateType,
   payload: { subject: string; title: string; body: string },
 ) {
-  return apiFetch<{ subject: string; html: string }>(`/email-templates/${type}/preview`, {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
+  return apiFetch<{ subject: string; html: string }>(
+    `/email-templates/${type}/preview`,
+    {
+      method: "POST",
+      body: JSON.stringify(payload),
+    },
+  );
 }
