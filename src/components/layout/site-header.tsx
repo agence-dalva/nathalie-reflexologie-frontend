@@ -56,14 +56,14 @@ export function SiteHeader() {
           />
           <span className="flex flex-col">
             <span
-              className={`font-display text-[1.35rem] font-normal tracking-tight transition-colors ${
+              className={`font-display text-[1.65rem] font-normal tracking-tight transition-colors ${
                 light ? "text-cream" : "text-sage-900 group-hover:text-sage-700"
               }`}
             >
               Nathalie&nbsp;OHL
             </span>
             <span
-              className={`mt-1 text-[0.6rem] font-medium tracking-widest-plus uppercase transition-colors ${
+              className={`mt-1 text-[0.72rem] font-medium tracking-widest-plus uppercase transition-colors ${
                 light ? "text-cream/80" : "text-sage-500"
               }`}
             >
@@ -75,12 +75,14 @@ export function SiteHeader() {
         <nav className="hidden items-center gap-10 lg:flex">
           {navigation.map((item) => {
             const active =
-              item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+              item.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`group relative text-[0.82rem] tracking-wide transition-colors ${
+                className={`group relative text-[0.95rem] tracking-wide transition-colors ${
                   light
                     ? "text-cream/90 hover:text-cream"
                     : "text-sage-800 hover:text-sage-900"
@@ -97,7 +99,7 @@ export function SiteHeader() {
           })}
           <Link
             href="/reservation"
-            className={`rounded-full px-6 py-2.5 text-[0.8rem] font-medium tracking-wide transition-colors duration-300 ${
+            className={`rounded-full px-6 py-2.5 text-[0.92rem] font-medium tracking-wide transition-colors duration-300 ${
               light
                 ? "bg-cream text-sage-900 hover:bg-white"
                 : "bg-sage-800 text-cream hover:bg-sage-900"
@@ -148,13 +150,17 @@ export function SiteHeader() {
             <div className="flex flex-col px-6 py-6">
               {navigation.map((item, i) => {
                 const active =
-                  item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+                  item.href === "/"
+                    ? pathname === "/"
+                    : pathname.startsWith(item.href);
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
                     className={`border-b border-sage-100/70 py-4 font-display text-2xl transition-colors ${
-                      active ? "text-sage-800" : "text-sage-600 hover:text-sage-800"
+                      active
+                        ? "text-sage-800"
+                        : "text-sage-600 hover:text-sage-800"
                     } ${i === 0 ? "border-t border-sage-100/70" : ""}`}
                   >
                     {item.label}

@@ -1,22 +1,3 @@
-export const testimonials = [
-  {
-    name: "Jacqueline Im Obersteg",
-    text: "Je ne remercierai jamais assez Nathalie pour ma première séance de réflexologie ! Depuis cette séance, je ne ressens plus aucune douleur liée au nerf sciatique. Quelle délivrance !",
-  },
-  {
-    name: "Stéphanie Rich",
-    text: "J'ai été totalement relaxée et j'ai constaté une réelle amélioration pour la circulation sanguine et lymphatique. Nathalie est douce, bienveillante et à l'écoute, et a des mains en or !",
-  },
-  {
-    name: "Christelle Segura",
-    text: "Le lieu est très cocooning, Nathalie vous accueille avec plein de bienveillance et de douceur. Elle a énormément atténué les effets secondaires de la chimio. Un grand merci pour votre humanité.",
-  },
-  {
-    name: "Yann Hoffmann",
-    text: "Une expérience parfaite ! Après quelques séances, les bienfaits se font ressentir. Une réflexologie très professionnelle qui, par son écoute, répond au mieux à vos maux.",
-  },
-] as const;
-
 export const benefits = [
   {
     title: "Migraines, céphalées",
@@ -44,8 +25,8 @@ export const benefits = [
       "Un massage qui favorise le drainage et améliore la circulation dans tout l'organisme.",
   },
   {
-    title: "Troubles respiratoires",
+    title: "Troubles de la ménopause",
     description:
-      "Un accompagnement doux pour libérer les voies respiratoires et retrouver une respiration ample.",
+      "Un accompagnement doux pour apaiser les désagréments liés à la ménopause et retrouver un mieux-être au quotidien.",
   },
 ] as const;
