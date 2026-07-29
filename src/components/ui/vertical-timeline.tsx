@@ -29,17 +29,37 @@ export function VerticalTimeline({ entries }: { entries: TimelineEntry[] }) {
               {fromLeft ? (
                 <>
                   <div className="hidden sm:block" />
-                  <TimelineCard entry={entry} align="left" delay={i * 0.05} />
+                  <TimelineCard
+                    entry={entry}
+                    align="left"
+                    delay={i * 0.05}
+                    className="hidden sm:block"
+                  />
                   <div className="col-start-2 sm:hidden">
-                    <TimelineCard entry={entry} align="left" delay={i * 0.05} mobile />
+                    <TimelineCard
+                      entry={entry}
+                      align="left"
+                      delay={i * 0.05}
+                      mobile
+                    />
                   </div>
                 </>
               ) : (
                 <>
-                  <TimelineCard entry={entry} align="right" delay={i * 0.05} className="hidden sm:block" />
+                  <TimelineCard
+                    entry={entry}
+                    align="right"
+                    delay={i * 0.05}
+                    className="hidden sm:block"
+                  />
                   <div className="hidden sm:block" />
                   <div className="col-start-2 sm:hidden">
-                    <TimelineCard entry={entry} align="right" delay={i * 0.05} mobile />
+                    <TimelineCard
+                      entry={entry}
+                      align="right"
+                      delay={i * 0.05}
+                      mobile
+                    />
                   </div>
                 </>
               )}

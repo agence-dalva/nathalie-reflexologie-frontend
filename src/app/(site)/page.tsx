@@ -55,6 +55,10 @@ const detenteSlides: SliderImage[] = [
     src: "/images/votre-espace-detente/votre-espace-detente-4.jpeg",
     alt: "Espace détente et repos du cabinet",
   },
+  {
+    src: "/images/votre-espace-detente/votre-espace-detente-5.jpeg",
+    alt: "Vue d'ensemble du salon d'accueil du cabinet",
+  },
 ];
 
 export default function HomePage() {
@@ -190,7 +194,7 @@ export default function HomePage() {
                   alt="Nathalie OHL, praticienne en réflexologie"
                   fill
                   sizes="(min-width: 1024px) 22vw, 45vw"
-                  className="object-cover object-[60%_20%]"
+                  className="object-cover object-[40%_20%]"
                 />
               </div>
             </div>

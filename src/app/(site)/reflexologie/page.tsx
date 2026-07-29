@@ -15,20 +15,28 @@ export const metadata: Metadata = {
 
 const history = [
   {
-    period: "Antiquité",
-    text: "Le document le plus ancien concernant la réflexologie plantaire a été trouvé en Égypte, à l'entrée du tombeau d'Ankhmahor, médecin du pharaon.",
+    period: "Vers 2 300 av. J.-C.",
+    text: "Une fresque découverte dans le tombeau du médecin Ankhmahor, en Égypte, représente des personnes recevant des soins sur les pieds et les mains. Il s'agit de l'une des plus anciennes traces connues de cette pratique.",
   },
   {
-    period: "1872–1942",
-    text: "Le Dr William Fitzgerald établit que le corps se divise en dix zones longitudinales, du haut de la tête à l'extrémité des orteils.",
+    period: "Environ 2 000 av. J.-C.",
+    text: "Des techniques de stimulation des pieds et des mains sont également évoquées dans les traditions chinoises et indiennes, où elles s'inscrivent dans une approche globale de l'équilibre du corps et de l'énergie.",
   },
   {
-    period: "1879–1974",
-    text: "Eunice Ingham, physiothérapeute américaine, approfondit la thérapie des zones réflexes en se consacrant uniquement aux pieds.",
+    period: "1913",
+    text: "Le médecin américain William H. Fitzgerald développe la théorie des « zones réflexes », selon laquelle le corps est divisé en dix zones longitudinales reliées entre elles.",
+  },
+  {
+    period: "Années 1930",
+    text: "Eunice Ingham (1889–1974), physiothérapeute américaine, approfondit les travaux de Fitzgerald. Elle établit la cartographie des zones réflexes des pieds et met au point la réflexologie plantaire moderne telle qu'elle est pratiquée aujourd'hui.",
+  },
+  {
+    period: "À partir des années 1970",
+    text: "La réflexologie connaît un essor important en Europe, notamment en France, en Belgique et en Suisse, où elle se développe comme une approche complémentaire de bien-être.",
   },
   {
     period: "1997",
-    text: "Joëlle et Jean-Paul Barbier créent l'école E.R.V.E — École de Réflexologie et de Vecteurs Énergétiques.",
+    text: "Joëlle et Jean-Paul Barbier créent l'école E.R.V.E — École de Réflexologie et de Vecteurs Énergétiques, école d'où Nathalie est certifiée.",
   },
 ];
 
@@ -65,71 +73,90 @@ export default function ReflexologiePage() {
         <Container className="max-w-3xl">
           <Reveal>
             <p className="font-display text-2xl leading-normal font-light text-sage-800 sm:text-[1.7rem]">
-              Nous avons sur nos pieds plus de 7200 terminaisons nerveuses. La
-              cartographie de notre organisme est représentée en totalité sur
-              nos deux pieds.
+              Nos pieds sont le miroir de notre corps.
             </p>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-8 leading-relaxed text-stone-600">
-              La réflexologie plantaire est une technique énergétique qui
-              consiste à exercer une pression particulière sur certains points
-              et zones du pied, appelés zones et points réflexes, correspondant
-              à des organes, des articulations, des muscles, des glandes — dans
-              le but de stimuler tout notre organisme.
+              La réflexologie est une technique manuelle qui repose sur le
+              principe que les pieds, les mains et le visage sont en lien avec
+              l&apos;ensemble du corps par l&apos;intermédiaire du système
+              nerveux. Nous avons sur nos pieds plus de 7200 terminaisons
+              nerveuses. La cartographie de notre organisme est représentée en
+              totalité sur nos deux pieds, que ce soit les organes, les
+              articulations, les muscles et les glandes.
+            </p>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <p className="mt-5 leading-relaxed text-stone-600">
+              Par des pressions ciblées sur des points et zones réflexes, le
+              réflexologue envoie des informations au système nerveux. Celui-ci
+              joue un rôle essentiel dans la transmission des messages entre le
+              cerveau et les différents organes, ainsi que dans la régulation
+              des grandes fonctions de l&apos;organisme.
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="mt-5 leading-relaxed text-stone-600">
+              Cette stimulation favorise une réponse naturelle du corps, et
+              permet à l&apos;organisme de mobiliser ses propres capacités pour
+              retrouver un équilibre, un état de bien-être.
             </p>
           </Reveal>
         </Container>
       </section>
 
       {/* Details */}
-      <section className="bg-sage-50 py-24 sm:py-32">
+      <section className="bg-sage-900 py-24 sm:py-32">
         <Container className="max-w-4xl">
           <div className="space-y-16 sm:space-y-20">
             <Reveal className="grid gap-3 sm:grid-cols-[10rem_1fr] sm:gap-10">
-              <h2 className="text-[0.7rem] font-medium tracking-widest-plus text-sage-500 uppercase">
+              <h2 className="text-[0.7rem] font-medium tracking-widest-plus text-sage-300 uppercase">
                 La sensibilité
               </h2>
-              <p className="leading-relaxed text-stone-600">
-                La pression sur certains points peut être sensible, voire très
-                sensible. L&apos;intensité de cette sensibilité est un
-                indicateur pour le réflexologue de l&apos;état dans lequel se
-                trouve l&apos;organe. Par exemple, si la zone du foie est
-                sensible, cela peut signifier que le foie est chargé,
-                encombré, qu&apos;une petite détox est nécessaire.
+              <p className="leading-relaxed text-sage-100">
+                La pression exercée sur certains points et zones réflexes peut
+                être ressentie comme sensible, voire plus intense. Cette
+                sensibilité varie d&apos;une personne à l&apos;autre et
+                d&apos;une séance à l&apos;autre. Elle constitue pour le
+                réflexologue un élément d&apos;observation parmi d&apos;autres,
+                sans pour autant permettre d&apos;établir un diagnostic.
               </p>
             </Reveal>
 
             <Reveal className="grid gap-3 sm:grid-cols-[10rem_1fr] sm:gap-10">
-              <h2 className="text-[0.7rem] font-medium tracking-widest-plus text-sage-500 uppercase">
-                Le blocage
+              <h2 className="text-[0.7rem] font-medium tracking-widest-plus text-sage-300 uppercase">
+                Les réactions
               </h2>
-              <p className="leading-relaxed text-stone-600">
-                Quand un organe ou une partie du corps fonctionne mal,
-                l&apos;énergie est entravée, et ce blocage se répercute sur un
-                point précis de la plante du pied. Le réflexologue va pouvoir
-                ressentir sous les doigts des tensions, des cristaux, des
-                tissus durs, mous, etc.
+              <p className="leading-relaxed text-sage-100">
+                Lors de la séance, certaines zones réflexes peuvent présenter
+                une sensibilité particulière ou des différences de texture et de
+                souplesse, des tensions, des cristaux, des grains de sable, etc.
+                Le réflexologue perçoit ces réactions par le toucher et les
+                prend en compte pour adapter son travail.
               </p>
             </Reveal>
 
             <Reveal className="grid gap-3 sm:grid-cols-[10rem_1fr] sm:gap-10">
-              <h2 className="text-[0.7rem] font-medium tracking-widest-plus text-sage-500 uppercase">
+              <h2 className="text-[0.7rem] font-medium tracking-widest-plus text-sage-300 uppercase">
                 L&apos;objectif
               </h2>
-              <p className="leading-relaxed text-stone-600">
-                L&apos;objectif du réflexologue est de localiser les tensions,
-                et de permettre à notre corps de se libérer des toxines
-                responsables de nombreux maux. La réflexologie va permettre un
-                nettoyage de l&apos;intérieur, une détox — et aider notre
-                corps à se rééquilibrer, à se renforcer, à mieux faire
-                circuler l&apos;énergie vitale nécessaire au bon fonctionnement
-                de tout l&apos;organisme.
+              <p className="leading-relaxed text-sage-100">
+                La réflexologie va favoriser la détente profonde, aider à
+                relâcher les tensions, permettre d&apos;évacuer les toxines
+                fabriquées par notre corps et soutenir les capacités naturelles
+                d&apos;autorégulation de l&apos;organisme. Elle accompagne
+                chacun dans sa recherche d&apos;un meilleur équilibre physique,
+                émotionnel et énergétique, afin de retrouver une sensation
+                d&apos;harmonie et de bien-être.
               </p>
             </Reveal>
 
-            <Reveal variant="blur" className="border-t border-sage-200 pt-12 text-center">
-              <p className="mx-auto max-w-2xl font-display text-2xl leading-normal font-light text-sage-800 sm:text-3xl">
+            <Reveal
+              variant="blur"
+              className="border-t border-sage-700/50 pt-12 text-center"
+            >
+              <p className="mx-auto max-w-2xl font-display text-2xl leading-normal font-light text-cream sm:text-3xl">
                 La réflexologie plantaire prend en compte l&apos;être dans sa
                 globalité physique, mentale et émotionnelle.
               </p>
@@ -144,9 +171,9 @@ export default function ReflexologiePage() {
           <Reveal>
             <SectionHeading
               eyebrow="Les bienfaits"
-              title="De nombreux maux soulagés"
+              title="De nombreux maux apaisés !"
               align="center"
-              description="La réflexologie plantaire va vous aider et soulager de nombreux maux, troubles et pathologies."
+              description="La réflexologie plantaire peut contribuer à apaiser certains inconforts du quotidien et à améliorer le bien-être général. Elle s'inscrit dans une démarche complémentaire de prévention et de relaxation."
             />
           </Reveal>
           <RevealGroup className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-x-16 gap-y-px sm:grid-cols-2">
@@ -159,13 +186,16 @@ export default function ReflexologiePage() {
               </RevealItem>
             ))}
           </RevealGroup>
+          <Reveal delay={0.15}>
+            <p className="mx-auto mt-10 max-w-2xl text-center leading-relaxed text-stone-500 italic">
+              Et de nombreux autres bienfaits…
+            </p>
+          </Reveal>
           <Reveal delay={0.2}>
-            <p className="mx-auto mt-14 max-w-2xl text-center leading-relaxed text-stone-500">
-              Elle permet également de renforcer les défenses immunitaires et
-              joue un rôle essentiel dans la prévention. Elle apporte une aide
-              de confort en réduisant les effets secondaires de la
-              chimiothérapie, en soutien pour mieux gérer le stress de la
-              maladie.
+            <p className="mx-auto mt-6 max-w-2xl text-center leading-relaxed text-stone-500">
+              La réflexologie agit en prévention, permet de renforcer les
+              défenses immunitaires, redonne tonus et énergie, apporte bien-être
+              et sérénité !
             </p>
           </Reveal>
         </Container>
@@ -177,7 +207,7 @@ export default function ReflexologiePage() {
           <Reveal>
             <SectionHeading
               eyebrow="Aux origines"
-              title="Une pratique plusieurs fois millénaire"
+              title="Une pratique ancestrale"
               align="center"
               tone="light"
             />
@@ -189,16 +219,20 @@ export default function ReflexologiePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 text-center sm:py-32">
+      <section className="py-28 text-center sm:py-40">
         <Container>
           <Reveal variant="blur">
-            <h2 className="font-display text-3xl leading-tight font-light text-sage-800 sm:text-4xl">
+            <h2 className="font-display text-4xl leading-tight font-light text-sage-800 sm:text-5xl">
               Envie d&apos;en faire l&apos;expérience ?
             </h2>
           </Reveal>
           <Reveal variant="fade" delay={0.2}>
             <div className="mt-10">
-              <LinkButton href="/reservation" size="lg">
+              <LinkButton
+                href="/reservation"
+                size="lg"
+                className="px-11 py-5 text-base"
+              >
                 Prendre rendez-vous
               </LinkButton>
             </div>
