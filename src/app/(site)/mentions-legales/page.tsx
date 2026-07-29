@@ -38,8 +38,20 @@ export default function MentionsLegalesPage() {
               1. Informations légales
             </h2>
             <p className="mt-3">
-              Propriétaire du site : OHL Nathalie. Hébergeur : à définir lors
-              de la mise en ligne.
+              Propriétaire du site : OHL Nathalie.
+              <br />
+              Hébergeur : Hostinger International Ltd. — 61 Lordou Vironos
+              Street, 6023 Larnaca, Chypre —{" "}
+              <a
+                href="https://www.hostinger.fr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sage-700 underline"
+              >
+                www.hostinger.fr
+              </a>
+              <br />
+              Webmaster : David Planchon
             </p>
           </section>
 
@@ -59,9 +71,8 @@ export default function MentionsLegalesPage() {
               3. Responsabilité
             </h2>
             <p className="mt-3">
-              Les informations diffusées sur ce site le sont à titre
-              informatif et ne sauraient engager la responsabilité de
-              l&apos;éditeur.
+              Les informations diffusées sur ce site le sont à titre informatif
+              et ne sauraient engager la responsabilité de l&apos;éditeur.
             </p>
           </section>
 
@@ -70,20 +81,18 @@ export default function MentionsLegalesPage() {
               4. Données personnelles (RGPD)
             </h2>
             <p className="mt-3">
-              Conformément au Règlement Général sur la Protection des
-              Données, vous disposez d&apos;un droit d&apos;accès, de rectification
-              et de suppression des données vous concernant. Pour l&apos;exercer,
+              Conformément au Règlement Général sur la Protection des Données,
+              vous disposez d&apos;un droit d&apos;accès, de rectification et de
+              suppression des données vous concernant. Pour l&apos;exercer,
               contactez-nous à l&apos;adresse indiquée ci-dessus.
             </p>
           </section>
 
           <section>
-            <h2 className="font-display text-xl text-sage-800">
-              5. Cookies
-            </h2>
+            <h2 className="font-display text-xl text-sage-800">5. Cookies</h2>
             <p className="mt-3">
-              Ce site peut utiliser des cookies techniques nécessaires à son
-              bon fonctionnement.
+              Ce site peut utiliser des cookies techniques nécessaires à son bon
+              fonctionnement.
             </p>
           </section>
         </div>

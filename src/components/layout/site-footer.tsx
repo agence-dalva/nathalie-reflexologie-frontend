@@ -13,14 +13,24 @@ export function SiteFooter() {
             <p className="mt-2 max-w-xs text-sm leading-relaxed text-sage-200">
               {siteConfig.tagline}
             </p>
-            <a
-              href="https://www.facebook.com/reflexoaltkirch"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-2 border-b border-sage-600 pb-0.5 text-sm text-sage-100 transition-colors hover:border-cream hover:text-cream"
-            >
-              Facebook
-            </a>
+            <div className="mt-4 flex items-center gap-5">
+              <a
+                href="https://www.facebook.com/reflexoaltkirch"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 border-b border-sage-600 pb-0.5 text-sm text-sage-100 transition-colors hover:border-cream hover:text-cream"
+              >
+                Facebook
+              </a>
+              <a
+                href="https://www.instagram.com/nathalie.reflexologie.detente/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 border-b border-sage-600 pb-0.5 text-sm text-sage-100 transition-colors hover:border-cream hover:text-cream"
+              >
+                Instagram
+              </a>
+            </div>
           </div>
 
           <div>
@@ -49,7 +59,10 @@ export function SiteFooter() {
               <li>{siteConfig.address.line1}</li>
               <li>{siteConfig.address.line2}</li>
               <li className="pt-1">
-                <a href={siteConfig.phoneHref} className="transition-colors hover:text-cream">
+                <a
+                  href={siteConfig.phoneHref}
+                  className="transition-colors hover:text-cream"
+                >
                   {siteConfig.phone}
                 </a>
               </li>
@@ -78,7 +91,10 @@ export function SiteFooter() {
             </a>
           </p>
           <div className="flex gap-6">
-            <Link href="/mentions-legales" className="transition-colors hover:text-cream">
+            <Link
+              href="/mentions-legales"
+              className="transition-colors hover:text-cream"
+            >
               Informations légales
             </Link>
             <Link href="/cgv" className="transition-colors hover:text-cream">

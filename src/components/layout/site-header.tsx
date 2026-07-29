@@ -18,6 +18,11 @@ export function SiteHeader() {
   const hasDarkHero = pagesWithDarkHero.includes(pathname);
   const light = hasDarkHero && !scrolled && !isOpen;
 
+  // Le hero de /contact est trop court pour que le header transparent reste
+  // lisible en position par défaut : on garde en permanence l'apparence
+  // "scrollée" (fond opaque) sur cette page uniquement.
+  const alwaysOpaque = pathname === "/contact";
+
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
@@ -39,7 +44,7 @@ export function SiteHeader() {
   return (
     <header
       className={`sticky top-0 z-50 transition-colors duration-500 ${
-        scrolled || isOpen
+        scrolled || isOpen || alwaysOpaque
           ? "border-b border-sage-100 bg-cream/85 backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
       }`}

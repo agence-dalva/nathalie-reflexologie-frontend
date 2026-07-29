@@ -11,14 +11,14 @@ export const metadata: Metadata = {
 };
 
 const paragraphs = [
-  "J'ai effectué ma carrière professionnelle dans le domaine du tourisme. Mon travail m'a permis de découvrir de nombreux horizons, et d'acquérir une ouverture d'esprit par les nombreuses expériences de mes voyages.",
-  "Toutefois le milieu du tourisme, que bon nombre pensent être un domaine de « rêve », a subi bien des changements ces dernières années, et la pression et le stress en font également partie.",
-  "J'ai décidé en 2016 de quitter mon emploi, ne supportant plus ce stress permanent qui me rongeait à petit feu.",
-  "Mais j'arrivais à la veille de mes 50 ans et je dus faire face à une grande remise en question ! Que vais-je faire de mon avenir professionnel ?",
-  "Souhaitant AIDER les personnes, leur apporter BIEN-ÊTRE et MIEUX-ÊTRE, j'ai orienté mes recherches vers les techniques douces, et j'ai découvert la réflexologie plantaire, qui par sa possibilité de soulager/aider les personnes souffrant de maux divers, m'a totalement séduite. À la recherche d'une école pouvant m'apporter une formation sérieuse, j'ai découvert l'école E.R.V.E.",
-  "Et c'est ainsi qu'en 2017, j'ai décidé de m'engager dans une formation de 2 ans à l'école E.R.V.E.",
-  "J'ai, au terme de ma formation, rédigé un mémoire sur la maladie de Parkinson, et obtenu mon certificat en août 2019.",
-  "L'envie d'enrichir mes connaissances, d'appréhender le corps et l'esprit dans son entier par une technique fascinante m'a motivée, et je suis heureuse d'avoir fait ce choix pour continuer mon chemin de vie.",
+  "Après de nombreuses années passées dans le domaine du tourisme, j'ai eu la chance de découvrir de nombreux pays, de belles cultures et de vivre des expériences humaines enrichissantes, qui m'ont apporté une grande ouverture d'esprit.",
+  "Cependant, derrière l'image souvent idéalisée du secteur du tourisme se cachent également des exigences importantes, une pression constante et un rythme de travail parfois difficile à concilier avec son équilibre personnel. Au fil des années, le stress s'est installé durablement dans mon quotidien.",
+  "En 2016, j'ai pris la décision de quitter mon emploi afin de retrouver un meilleur équilibre de vie. À l'aube de mes 50 ans, cette période a été marquée par une profonde réflexion sur mon avenir professionnel et sur le sens que je souhaitais donner à la suite de mon parcours.",
+  "Animée par le désir d'aider les autres, d'apporter du bien-être et d'accompagner les personnes vers un mieux-être durable, je me suis naturellement tournée vers les approches de pratiques complémentaires et naturelles. C'est alors que j'ai découvert la réflexologie plantaire.",
+  "J'ai immédiatement été séduite par cette pratique douce et naturelle, qui permet d'accompagner l'organisme dans sa recherche d'équilibre et d'apporter un soulagement à de nombreux troubles du quotidien. Souhaitant acquérir une formation solide, j'ai intégré en 2017 l'école E.R.V.E. (École de Réflexologie et de Vecteurs Énergétiques), où j'ai suivi un cursus complet de deux années.",
+  "À l'issue de cette formation, j'ai rédigé un mémoire consacré à la maladie de Parkinson et obtenu mon certificat en août 2019.",
+  "Depuis, je continue d'enrichir mes connaissances avec la même passion, en suivant régulièrement des formations. La réflexologie me fascine par sa capacité à considérer la personne dans sa globalité, en tenant compte à la fois du corps, des émotions et de l'équilibre général de l'organisme.",
+  "Aujourd'hui, je suis heureuse d'exercer un métier qui correspond pleinement à mes valeurs : l'écoute, la bienveillance et l'accompagnement de chacun vers un mieux-être naturel.",
 ];
 
 export default function AProposPage() {
@@ -45,7 +45,7 @@ export default function AProposPage() {
         <Container className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-20">
           <Reveal
             variant="blur"
-            className="relative aspect-4/5 overflow-hidden lg:sticky lg:top-28"
+            className="relative aspect-4/5 overflow-hidden rounded-2xl shadow-[0_20px_45px_-15px_rgba(43,58,48,0.35)] ring-1 ring-sage-900/10 lg:sticky lg:top-28"
           >
             <Image
               src="/images/a-propos/a-propos-nathali.jpg"

@@ -1,29 +1,41 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import { Container } from '@/components/ui/container';
-import { Reveal } from '@/components/ui/reveal';
-import { LinkButton } from '@/components/ui/button';
-import { siteConfig } from '@/lib/site-config';
-import { ContactForm } from './contact-form';
+import type { Metadata } from "next";
+import Image from "next/image";
+import { Container } from "@/components/ui/container";
+import { Reveal } from "@/components/ui/reveal";
+import { LinkButton } from "@/components/ui/button";
+import { siteConfig } from "@/lib/site-config";
+import { ContactForm } from "./contact-form";
 
 export const metadata: Metadata = {
-  title: 'Contact',
-  description: 'Contactez Nathalie OHL, réflexologue à Altkirch, pour toute question ou pour prendre rendez-vous.',
+  title: "Contact",
+  description:
+    "Contactez Nathalie OHL, réflexologue à Altkirch, pour toute question ou pour prendre rendez-vous.",
 };
 
 export default function ContactPage() {
   return (
     <>
       {/* Header */}
-      <section className="relative -mt-5 flex h-72 w-full items-end overflow-hidden sm:h-96">
-        <Image src="/images/contact/exterieur2.jpg" alt="Entrée du cabinet de Nathalie OHL à Altkirch" fill priority sizes="100vw" className="object-cover object-[50%_15%]" />
+      <section className="relative -mt-28 flex h-96 w-full items-end overflow-hidden sm:h-128">
+        <Image
+          src="/images/contact/exterieur2.jpg"
+          alt="Entrée du cabinet de Nathalie OHL à Altkirch"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[50%_0%]"
+        />
         <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-transparent" />
         <Container className="relative z-10 w-full pb-8 sm:pb-10">
           <Reveal variant="fade">
-            <p className="text-[0.72rem] font-medium tracking-widest-plus text-cream/80 uppercase">Une question ?</p>
+            <p className="text-[0.72rem] font-medium tracking-widest-plus text-cream/80 uppercase">
+              Une question ?
+            </p>
           </Reveal>
           <Reveal variant="blur" delay={0.1} duration={1.1}>
-            <h1 className="mt-3 font-display text-[2.75rem] leading-[1.1] font-light text-cream sm:text-6xl">Contact</h1>
+            <h1 className="mt-3 font-display text-[2.75rem] leading-[1.1] font-light text-cream sm:text-6xl">
+              Contact
+            </h1>
           </Reveal>
         </Container>
       </section>
@@ -33,8 +45,11 @@ export default function ContactPage() {
           {/* Details */}
           <Reveal>
             <p className="max-w-sm leading-relaxed text-stone-600">
-              Renseignements ou prise de rendez-vous au{' '}
-              <a href={siteConfig.phoneHref} className="border-b border-sage-300 text-sage-800 transition-colors hover:border-sage-600">
+              Renseignements ou prise de rendez-vous au{" "}
+              <a
+                href={siteConfig.phoneHref}
+                className="border-b border-sage-300 text-sage-800 transition-colors hover:border-sage-600"
+              >
                 {siteConfig.phone}
               </a>
               , ou réservez directement en ligne.
@@ -48,7 +63,9 @@ export default function ContactPage() {
 
             <dl className="mt-14 space-y-8">
               <div className="border-t border-sage-200/70 pt-6">
-                <dt className="text-[0.7rem] font-medium tracking-widest-plus text-sage-500 uppercase">Cabinet</dt>
+                <dt className="text-[0.7rem] font-medium tracking-widest-plus text-sage-500 uppercase">
+                  Cabinet
+                </dt>
                 <dd className="mt-3 text-stone-600">
                   Nathalie OHL Réflexologue E.R.V.E
                   <br />
@@ -58,17 +75,27 @@ export default function ContactPage() {
                 </dd>
               </div>
               <div className="border-t border-sage-200/70 pt-6">
-                <dt className="text-[0.7rem] font-medium tracking-widest-plus text-sage-500 uppercase">Téléphone</dt>
+                <dt className="text-[0.7rem] font-medium tracking-widest-plus text-sage-500 uppercase">
+                  Téléphone
+                </dt>
                 <dd className="mt-3">
-                  <a href={siteConfig.phoneHref} className="text-stone-600 transition-colors hover:text-sage-800">
+                  <a
+                    href={siteConfig.phoneHref}
+                    className="text-stone-600 transition-colors hover:text-sage-800"
+                  >
                     {siteConfig.phone}
                   </a>
                 </dd>
               </div>
               <div className="border-t border-sage-200/70 pt-6">
-                <dt className="text-[0.7rem] font-medium tracking-widest-plus text-sage-500 uppercase">Email</dt>
+                <dt className="text-[0.7rem] font-medium tracking-widest-plus text-sage-500 uppercase">
+                  Email
+                </dt>
                 <dd className="mt-3">
-                  <a href={`mailto:${siteConfig.email}`} className="text-stone-600 transition-colors hover:text-sage-800">
+                  <a
+                    href={`mailto:${siteConfig.email}`}
+                    className="text-stone-600 transition-colors hover:text-sage-800"
+                  >
                     {siteConfig.email}
                   </a>
                 </dd>
@@ -79,7 +106,9 @@ export default function ContactPage() {
           {/* Form */}
           <Reveal delay={0.1}>
             <div className="bg-sage-50 p-8 sm:p-12">
-              <h2 className="font-display text-2xl font-light text-sage-900">Envoyer un message</h2>
+              <h2 className="font-display text-2xl font-light text-sage-900">
+                Envoyer un message
+              </h2>
               <div className="mt-8">
                 <ContactForm />
               </div>
@@ -96,7 +125,7 @@ export default function ContactPage() {
             src={`https://www.google.com/maps?q=${encodeURIComponent(`${siteConfig.address.line1}, ${siteConfig.address.line2}`)}&output=embed`}
             width="100%"
             height="420"
-            style={{ border: 0, display: 'block' }}
+            style={{ border: 0, display: "block" }}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             className="grayscale-15"
