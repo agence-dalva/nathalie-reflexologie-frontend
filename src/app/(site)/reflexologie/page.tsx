@@ -107,7 +107,7 @@ export default function ReflexologiePage() {
       </section>
 
       {/* Details */}
-      <section className="bg-sage-900 py-24 sm:py-32">
+      <section className="bg-[#5d7c67] py-24 sm:py-32">
         <Container className="max-w-4xl">
           <div className="space-y-16 sm:space-y-20">
             <Reveal className="grid gap-3 sm:grid-cols-[10rem_1fr] sm:gap-10">
@@ -202,7 +202,7 @@ export default function ReflexologiePage() {
       </section>
 
       {/* History — timeline */}
-      <section className="bg-sage-900 py-24 text-cream sm:py-32">
+      <section className="bg-[#5d7c67] py-24 text-cream sm:py-32">
         <Container>
           <Reveal>
             <SectionHeading

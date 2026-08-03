@@ -23,7 +23,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   }, [slides.length]);
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-sage-900">
+    <div className="absolute inset-0 overflow-hidden bg-[#5d7c67]">
       <AnimatePresence>
         <motion.div
           key={index}
@@ -52,7 +52,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
       </AnimatePresence>
 
       {/* Soft gradient overlays for text legibility and calm mood */}
-      <div className="absolute inset-0 bg-sage-900/35" />
+      <div className="absolute inset-0 bg-[#5d7c67]/35" />
       <div className="absolute inset-0 bg-linear-to-t from-sage-900/70 via-transparent to-sage-900/25" />
 
       {/* Slide indicators */}

@@ -16,7 +16,7 @@ export default function ContactPage() {
   return (
     <>
       {/* Header */}
-      <section className="relative -mt-28 flex h-96 w-full items-end overflow-hidden sm:h-128">
+      <section className="relative -mt-28 flex h-128 w-full items-end overflow-hidden sm:h-160">
         <Image
           src="/images/contact/exterieur2.jpg"
           alt="Entrée du cabinet de Nathalie OHL à Altkirch"
@@ -48,7 +48,7 @@ export default function ContactPage() {
               Renseignements ou prise de rendez-vous au{" "}
               <a
                 href={siteConfig.phoneHref}
-                className="border-b border-sage-300 text-sage-800 transition-colors hover:border-sage-600"
+                className="border-b border-sage-300 whitespace-nowrap text-sage-800 transition-colors hover:border-sage-600"
               >
                 {siteConfig.phone}
               </a>

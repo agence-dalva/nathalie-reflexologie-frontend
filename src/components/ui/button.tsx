@@ -6,7 +6,7 @@ const baseClasses =
   "group inline-flex cursor-pointer items-center justify-center gap-2.5 rounded-full text-[0.82rem] font-medium tracking-wide transition-all duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage-500 disabled:cursor-not-allowed disabled:opacity-50";
 
 const variants = {
-  primary: "bg-sage-800 text-cream hover:bg-sage-900",
+  primary: "bg-[#5d7c67] text-cream hover:bg-sage-800",
   secondary:
     "bg-transparent text-sage-800 border border-sage-300 hover:border-sage-600 hover:bg-sage-50/50",
   light:

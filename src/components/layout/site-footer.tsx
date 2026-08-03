@@ -5,7 +5,7 @@ export function SiteFooter() {
   const year = 2026;
 
   return (
-    <footer className="bg-sage-900 text-cream">
+    <footer className="bg-[#5d7c67] text-cream">
       <div className="mx-auto max-w-7xl px-6 py-14 sm:px-10">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
+import { ImageSlider } from "@/components/ui/image-slider";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { LinkButton } from "@/components/ui/button";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
@@ -30,8 +31,42 @@ const featuredImages: Record<string, string> = {
   "Réflexologie plantaire":
     "/images/home/votre-reflexologue/votre-reflexologue-1.jpg",
   "Réflexologie palmaire": "/images/reflexologie/reflexologie-plantaire.jpg",
-  "Réflexologie crânio-faciale": "/images/tarifs/cranio-faciale.jpeg",
+  "Réflexologie crânio-faciale":
+    "/images/tarifs/zoom-sur-une-technique/cranio-faciale.jpeg",
 };
+
+const cranioSlides = [
+  {
+    src: "/images/tarifs/zoom-sur-une-technique/cranio-faciale.jpeg",
+    alt: "Séance de réflexologie crânio-faciale",
+  },
+  {
+    src: "/images/tarifs/zoom-sur-une-technique/cranio-1.jpg",
+    alt: "Séance de réflexologie crânio-faciale",
+  },
+];
+
+const palmaireSlides = [
+  {
+    src: "/images/tarifs/reflexologie-palmaire/Palmaire1.jpg",
+    alt: "Séance de réflexologie palmaire",
+  },
+  {
+    src: "/images/tarifs/reflexologie-palmaire/Palmaire2.png",
+    alt: "Séance de réflexologie palmaire",
+  },
+];
+
+const massageAssisSlides = [
+  {
+    src: "/images/tarifs/massage-assis/Massageassis1.png",
+    alt: "Massage assis sur chaise ergonomique",
+  },
+  {
+    src: "/images/tarifs/massage-assis/Massageassis2.png",
+    alt: "Massage assis sur chaise ergonomique",
+  },
+];
 
 const featuredImagePositions: Record<string, string> = {
   "Réflexologie palmaire": "object-[65%_0%]",
@@ -154,7 +189,7 @@ export default async function TarifsPage() {
 
       {/* Other services — clean list */}
       {otherServices.length > 0 && (
-        <section className="bg-sage-900 py-24 sm:py-32">
+        <section className="bg-[#5d7c67] py-24 sm:py-32">
           <Container className="max-w-3xl">
             <Reveal>
               <SectionHeading
@@ -208,7 +243,7 @@ export default async function TarifsPage() {
           <Reveal>
             <SectionHeading
               eyebrow="Le déroulé"
-              title="Comment se déroule une séance"
+              title="Comment se déroule une séance ?"
             />
           </Reveal>
           <RevealGroup className="mt-14 space-y-10">
@@ -231,22 +266,35 @@ export default async function TarifsPage() {
               thérapeutique.
             </p>
           </Reveal>
+          <Reveal delay={0.15}>
+            <p className="mt-6 border-l-2 border-terracotta-400 pl-5 text-sm leading-relaxed text-stone-500">
+              <span className="font-medium text-stone-600">
+                Contre-indications
+              </span>{" "}
+              La réflexologie est déconseillée en cas de grossesse durant le
+              1er trimestre, d&apos;intervention chirurgicale récente (moins
+              d&apos;un mois), de phlébite ou de thrombose récente, de
+              problème cardiaque récent (infarctus, pose de stent, pontage,
+              intervention cardiaque…), ainsi qu&apos;en cas de traumatisme
+              récent du pied, de la main ou du visage, selon la zone
+              travaillée. En cas de doute ou de pathologie particulière,
+              n&apos;hésitez pas à demander l&apos;avis de votre médecin ou à
+              me contacter avant de prendre rendez-vous.
+            </p>
+          </Reveal>
         </Container>
       </section>
 
       {/* Crânio-faciale highlight */}
-      <section className="bg-sage-900 py-24 sm:py-32">
+      <section className="bg-[#5d7c67] py-24 sm:py-32">
         <Container className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
           <Reveal
             variant="blur"
-            className="relative aspect-4/5 overflow-hidden rounded-2xl shadow-[0_20px_45px_-15px_rgba(0,0,0,0.45)] ring-1 ring-cream/15 lg:order-2"
+            className="relative aspect-4/5 lg:order-2"
           >
-            <Image
-              src="/images/tarifs/cranio-faciale.jpeg"
-              alt="Séance de réflexologie crânio-faciale"
-              fill
-              sizes="(min-width: 1024px) 40vw, 90vw"
-              className="object-cover"
+            <ImageSlider
+              images={cranioSlides}
+              className="h-full rounded-2xl shadow-[0_20px_45px_-15px_rgba(0,0,0,0.45)] ring-1 ring-cream/15"
             />
           </Reveal>
           <div className="lg:order-1">
@@ -286,16 +334,10 @@ export default async function TarifsPage() {
       {/* Réflexologie palmaire highlight */}
       <section className="py-24 sm:py-32">
         <Container className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-          <Reveal
-            variant="blur"
-            className="relative aspect-4/5 overflow-hidden rounded-2xl shadow-[0_20px_45px_-15px_rgba(43,58,48,0.35)] ring-1 ring-sage-900/10"
-          >
-            <Image
-              src="/images/home/slider/slider-main.jpeg"
-              alt="Séance de réflexologie palmaire"
-              fill
-              sizes="(min-width: 1024px) 40vw, 90vw"
-              className="object-cover"
+          <Reveal variant="blur" className="relative aspect-4/5">
+            <ImageSlider
+              images={palmaireSlides}
+              className="h-full rounded-2xl shadow-[0_20px_45px_-15px_rgba(43,58,48,0.35)] ring-1 ring-sage-900/10"
             />
           </Reveal>
           <div>
@@ -333,31 +375,20 @@ export default async function TarifsPage() {
                 soin au niveau des mains.
               </p>
             </Reveal>
-            <Reveal delay={0.25}>
-              <p className="mt-4 leading-relaxed text-stone-600">
-                Douce, agréable et accessible à tous, la réflexologie palmaire
-                permet de bénéficier des mêmes principes et des mêmes bienfaits
-                que la réflexologie plantaire, tout en offrant une approche
-                différente, pratique et confortable.
-              </p>
-            </Reveal>
           </div>
         </Container>
       </section>
 
       {/* Massage assis highlight */}
-      <section className="bg-sage-900 py-24 sm:py-32">
+      <section className="bg-[#5d7c67] py-24 sm:py-32">
         <Container className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
           <Reveal
             variant="blur"
-            className="relative aspect-4/5 overflow-hidden rounded-2xl shadow-[0_20px_45px_-15px_rgba(0,0,0,0.45)] ring-1 ring-cream/15 lg:order-2"
+            className="relative aspect-4/5 lg:order-2"
           >
-            <Image
-              src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=1000&q=80"
-              alt="Massage assis sur chaise ergonomique"
-              fill
-              sizes="(min-width: 1024px) 40vw, 90vw"
-              className="object-cover"
+            <ImageSlider
+              images={massageAssisSlides}
+              className="h-full rounded-2xl shadow-[0_20px_45px_-15px_rgba(0,0,0,0.45)] ring-1 ring-cream/15"
             />
           </Reveal>
           <div className="lg:order-1">

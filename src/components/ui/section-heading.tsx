@@ -15,10 +15,11 @@ export function SectionHeading({
 }) {
   const titleColor = tone === "light" ? "text-cream" : "text-sage-900";
   const descColor = tone === "light" ? "text-sage-100" : "text-stone-500";
+  const eyebrowColor = tone === "light" ? "text-sage-300" : "text-sage-500";
 
   return (
     <div className={align === "center" ? "text-center" : "text-left"}>
-      {eyebrow && <p className="eyebrow">{eyebrow}</p>}
+      {eyebrow && <p className={`eyebrow ${eyebrowColor}`}>{eyebrow}</p>}
       <Heading
         className={`mt-5 font-display text-[2rem] leading-[1.15] font-light sm:text-4xl md:text-[2.75rem] ${titleColor}`}
       >

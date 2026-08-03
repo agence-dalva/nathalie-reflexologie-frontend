@@ -52,7 +52,6 @@
     font-weight: 500;
     letter-spacing: var(--tracking-widest-plus);
     text-transform: uppercase;
-    color: var(--color-sage-500);
   }
 
   .hairline {

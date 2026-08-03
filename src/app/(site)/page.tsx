@@ -44,20 +44,20 @@ const benefitIcons = {
 
 const detenteSlides: SliderImage[] = [
   {
+    src: "/images/votre-espace-detente/votre-espace-detente-0.jpeg",
+    alt: "Espace détente du cabinet",
+  },
+  {
+    src: "/images/votre-espace-detente/votre-espace-detente-1.jpeg",
+    alt: "Espace détente du cabinet",
+  },
+  {
     src: "/images/votre-espace-detente/votre-espace-detente-2.jpeg",
-    alt: "Bureau d'accueil du cabinet",
+    alt: "Espace détente du cabinet",
   },
   {
     src: "/images/votre-espace-detente/votre-espace-detente-3.jpeg",
-    alt: "Table de massage cocooning du cabinet",
-  },
-  {
-    src: "/images/votre-espace-detente/votre-espace-detente-4.jpeg",
-    alt: "Espace détente et repos du cabinet",
-  },
-  {
-    src: "/images/votre-espace-detente/votre-espace-detente-5.jpeg",
-    alt: "Vue d'ensemble du salon d'accueil du cabinet",
+    alt: "Espace détente du cabinet",
   },
 ];
 
@@ -158,7 +158,7 @@ export default function HomePage() {
       </section>
 
       {/* Votre réflexologue — photos du cabinet */}
-      <section className="bg-sage-900 py-28 sm:py-36">
+      <section className="bg-[#5d7c67] py-28 sm:py-36">
         <Container className="grid items-center gap-16 lg:grid-cols-2 lg:gap-20">
           <div>
             <Reveal>
@@ -185,7 +185,7 @@ export default function HomePage() {
                   alt="Nathalie OHL lors d'une séance de réflexologie plantaire"
                   fill
                   sizes="(min-width: 1024px) 22vw, 45vw"
-                  className="object-cover object-[55%_25%]"
+                  className="object-cover object-[35%_25%]"
                 />
               </div>
               <div className="relative mt-10 aspect-[4/4.6] overflow-hidden rounded-2xl shadow-[0_20px_45px_-15px_rgba(0,0,0,0.45)] ring-1 ring-cream/15">
@@ -240,7 +240,7 @@ export default function HomePage() {
       </section>
 
       {/* Votre espace détente */}
-      <section className="bg-sage-900 py-28 sm:py-36">
+      <section className="bg-[#5d7c67] py-28 sm:py-36">
         <Container className="grid items-center gap-16 lg:grid-cols-2 lg:gap-20">
           <div>
             <Reveal variant="fade">

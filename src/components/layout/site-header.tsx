@@ -107,7 +107,7 @@ export function SiteHeader() {
             className={`rounded-full px-6 py-2.5 text-[0.92rem] font-medium tracking-wide transition-colors duration-300 ${
               light
                 ? "bg-cream text-sage-900 hover:bg-white"
-                : "bg-sage-800 text-cream hover:bg-sage-900"
+                : "bg-[#5d7c67] text-cream hover:bg-sage-800"
             }`}
           >
             Prendre rendez-vous
