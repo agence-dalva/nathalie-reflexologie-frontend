@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
+import Script from "next/script";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
@@ -39,6 +40,20 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${inter.variable} ${cormorant.variable} h-full antialiased`}
     >
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-C7DE8ZS25S"
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-C7DE8ZS25S');
+          `}
+        </Script>
+      </head>
       <body className="flex min-h-full flex-col bg-cream text-stone-800">
         {children}
       </body>

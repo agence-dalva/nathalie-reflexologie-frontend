@@ -45,6 +45,7 @@ export type Exception = {
   isClosed: boolean;
   startTime: string | null;
   endTime: string | null;
+  source: "MANUAL" | "HOLIDAY";
 };
 
 export type Availability = {
@@ -52,6 +53,14 @@ export type Availability = {
   weekday: number;
   startTime: string;
   endTime: string;
+};
+
+export type ExtraSlot = {
+  id: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+  serviceId: number;
 };
 
 export type DashboardOverview = {
@@ -336,8 +345,33 @@ export function importFrenchHolidays(year: number) {
   );
 }
 
-export function removeAllExceptions() {
-  return apiFetch<{ count: number }>("/availability/exceptions", {
+export function removeAllExceptions(source?: "MANUAL" | "HOLIDAY") {
+  const qs = source ? `?source=${source}` : "";
+  return apiFetch<{ count: number }>(`/availability/exceptions${qs}`, {
+    method: "DELETE",
+  });
+}
+
+export function getExtraSlots() {
+  return apiFetch<ExtraSlot[]>("/availability/extra-slots", {
+    cache: "no-store",
+  });
+}
+
+export function createExtraSlot(payload: {
+  date: string;
+  startTime: string;
+  endTime: string;
+  serviceId: number;
+}) {
+  return apiFetch<ExtraSlot>("/availability/extra-slots", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function deleteExtraSlot(id: number) {
+  return apiFetch<void>(`/availability/extra-slots/${id}`, {
     method: "DELETE",
   });
 }

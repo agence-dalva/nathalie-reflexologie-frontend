@@ -7,17 +7,25 @@ import {
   createAvailability,
   createException,
   createExceptionRange,
+  createExtraSlot,
   deleteAvailability,
   deleteException,
+  deleteExtraSlot,
   getAvailabilities,
   getExceptions,
+  getExtraSlots,
+  getServicesAdmin,
   importFrenchHolidays,
   removeAllExceptions,
   type Availability,
   type Exception,
+  type ExtraSlot,
+  type Service,
 } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Calendar, RangeCalendar } from "@/components/ui/calendar";
+import { Select } from "@/components/ui/select";
+import { formatDuration } from "@/lib/format";
 
 function toDateKey(date: Date): string {
   const year = date.getFullYear();
@@ -130,46 +138,28 @@ function RecurringSection() {
 
       {error && <p className="mt-3 text-red-600">{error}</p>}
 
-      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-7">
-        {WEEKDAYS.map((label, weekdayIndex) => {
-          const dayAvailabilities =
-            availabilities?.filter((a) => a.weekday === weekdayIndex) ?? [];
-          return (
-            <div
-              key={label}
-              className="rounded-2xl border border-sage-100 bg-white p-4"
-            >
-              <p className="text-sm font-semibold text-stone-700">{label}</p>
-              {dayAvailabilities.length === 0 ? (
-                <p className="mt-3 text-xs text-stone-400">Fermé</p>
-              ) : (
-                <ul className="mt-3 space-y-2">
-                  {dayAvailabilities.map((a) => (
-                    <li
-                      key={a.id}
-                      className="flex items-center justify-between rounded-lg bg-sage-50 px-2.5 py-1.5 text-xs text-sage-700"
-                    >
-                      <span>
-                        {a.startTime} – {a.endTime}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => handleRemove(a.id)}
-                        className="cursor-pointer text-stone-400 hover:text-red-600"
-                        aria-label="Supprimer"
-                      >
-                        ✕
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          );
-        })}
+      <div className="mt-6 grid grid-cols-2 gap-4">
+        <div className="rounded-2xl border border-sage-100 bg-white p-5">
+          <p className="text-2xl font-semibold text-sage-800">
+            {openDaysCount}
+            <span className="text-sm font-normal text-stone-500">/7</span>
+          </p>
+          <p className="mt-1 text-xs text-stone-500">
+            jour{openDaysCount > 1 ? "s" : ""} ouvert
+            {openDaysCount > 1 ? "s" : ""} par semaine
+          </p>
+        </div>
+        <div className="rounded-2xl border border-sage-100 bg-white p-5">
+          <p className="text-2xl font-semibold text-sage-800">
+            {weeklyHours}h
+            {weeklyRemainderMinutes > 0 &&
+              String(weeklyRemainderMinutes).padStart(2, "0")}
+          </p>
+          <p className="mt-1 text-xs text-stone-500">ouvertes par semaine</p>
+        </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="mt-6 grid grid-cols-1 items-start gap-4 lg:grid-cols-2">
         <div className="rounded-2xl border border-sage-100 bg-white p-5">
           <p className="text-sm font-semibold text-stone-700">
             Ajouter un créneau récurrent
@@ -183,17 +173,16 @@ function RecurringSection() {
               <label className="mb-1.5 block text-xs font-medium text-stone-600">
                 Jour
               </label>
-              <select
+              <Select
                 value={weekday}
                 onChange={(e) => setWeekday(Number(e.target.value))}
-                className="w-full rounded-xl border border-sage-200 bg-white px-3 py-2.5 text-sm text-stone-800 outline-none focus:border-sage-500"
               >
                 {WEEKDAYS.map((label, i) => (
                   <option key={label} value={i}>
                     {label}
                   </option>
                 ))}
-              </select>
+              </Select>
             </div>
 
             <div className="flex gap-3">
@@ -230,47 +219,265 @@ function RecurringSection() {
               Ajouter
             </Button>
           </div>
-        </div>
 
-        <div className="rounded-2xl border border-sage-100 bg-white p-5">
-          <p className="text-sm font-semibold text-stone-700">
-            Résumé de la semaine
-          </p>
-          <p className="mt-1 text-xs text-stone-400">
-            Vue d&apos;ensemble de vos horaires récurrents actuels.
-          </p>
-
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <div className="rounded-xl bg-sage-50 p-4">
-              <p className="text-2xl font-semibold text-sage-800">
-                {openDaysCount}
-                <span className="text-sm font-normal text-stone-500">/7</span>
-              </p>
-              <p className="mt-1 text-xs text-stone-500">
-                jour{openDaysCount > 1 ? "s" : ""} ouvert
-                {openDaysCount > 1 ? "s" : ""} par semaine
-              </p>
-            </div>
-            <div className="rounded-xl bg-sage-50 p-4">
-              <p className="text-2xl font-semibold text-sage-800">
-                {weeklyHours}h
-                {weeklyRemainderMinutes > 0 &&
-                  String(weeklyRemainderMinutes).padStart(2, "0")}
-              </p>
-              <p className="mt-1 text-xs text-stone-500">
-                ouvertes par semaine
-              </p>
-            </div>
+          <div className="mt-5 space-y-3 border-t border-sage-100 pt-5">
+            {WEEKDAYS.map((label, weekdayIndex) => {
+              const dayAvailabilities =
+                availabilities?.filter((a) => a.weekday === weekdayIndex) ??
+                [];
+              return (
+                <div
+                  key={label}
+                  className="flex items-start justify-between gap-4 rounded-xl bg-sage-50 px-3.5 py-2.5"
+                >
+                  <p className="pt-0.5 text-xs font-semibold text-stone-700">
+                    {label}
+                  </p>
+                  {dayAvailabilities.length === 0 ? (
+                    <p className="text-xs text-stone-400">Fermé</p>
+                  ) : (
+                    <ul className="flex flex-wrap justify-end gap-1.5">
+                      {dayAvailabilities.map((a) => (
+                        <li
+                          key={a.id}
+                          className="flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-xs text-sage-700 shadow-sm"
+                        >
+                          <span>
+                            {a.startTime} – {a.endTime}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemove(a.id)}
+                            className="cursor-pointer text-stone-400 hover:text-red-600"
+                            aria-label="Supprimer"
+                          >
+                            ✕
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              );
+            })}
           </div>
-
-          {openDaysCount === 0 && (
-            <p className="mt-4 text-sm text-stone-400">
-              Aucun horaire récurrent défini pour l&apos;instant.
-            </p>
-          )}
         </div>
+
+        <ExtraSlotsWidget />
       </div>
     </section>
+  );
+}
+
+function ExtraSlotsWidget() {
+  const [extraSlots, setExtraSlots] = useState<ExtraSlot[] | null>(null);
+  const [services, setServices] = useState<Service[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [date, setDate] = useState<Date | undefined>();
+  const [startTime, setStartTime] = useState("09:00");
+  const [endTime, setEndTime] = useState("10:00");
+  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(
+    null,
+  );
+  const [status, setStatus] = useState<"idle" | "loading">("idle");
+
+  const today = useMemo(() => startOfDay(new Date()), []);
+  const [visibleMonth, setVisibleMonth] = useState(
+    () => new Date(today.getFullYear(), today.getMonth(), 1),
+  );
+
+  const availableMinutes = useMemo(() => {
+    const [startH, startM] = startTime.split(":").map(Number);
+    const [endH, endM] = endTime.split(":").map(Number);
+    return endH * 60 + endM - (startH * 60 + startM);
+  }, [startTime, endTime]);
+
+  const compatibleServices = useMemo(() => {
+    return (services ?? [])
+      .filter((s) => s.durationMinutes + s.bufferMinutes <= availableMinutes)
+      .sort((a, b) => a.durationMinutes - b.durationMinutes);
+  }, [services, availableMinutes]);
+
+  const serviceId = compatibleServices.some((s) => s.id === selectedServiceId)
+    ? selectedServiceId
+    : (compatibleServices[0]?.id ?? null);
+
+  function refresh() {
+    getExtraSlots()
+      .then(setExtraSlots)
+      .catch((err) =>
+        setError(
+          err instanceof ApiError
+            ? err.message
+            : "Impossible de charger les créneaux ponctuels.",
+        ),
+      );
+  }
+
+  useEffect(() => {
+    refresh();
+    getServicesAdmin()
+      .then(setServices)
+      .catch(() => {});
+  }, []);
+
+  async function handleAdd() {
+    if (!date || !serviceId) return;
+    setStatus("loading");
+    setError(null);
+    try {
+      await createExtraSlot({
+        date: toDateKey(date),
+        startTime,
+        endTime,
+        serviceId,
+      });
+      setDate(undefined);
+      refresh();
+    } catch (err) {
+      setError(
+        err instanceof ApiError
+          ? err.message
+          : "Impossible d'ajouter ce créneau.",
+      );
+    } finally {
+      setStatus("idle");
+    }
+  }
+
+  async function handleRemove(id: number) {
+    try {
+      await deleteExtraSlot(id);
+      refresh();
+    } catch {
+      setError("Impossible de supprimer ce créneau.");
+    }
+  }
+
+  const sortedExtraSlots = extraSlots
+    ? [...extraSlots].sort(
+        (a, b) => a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime),
+      )
+    : null;
+  const upcomingExtraSlots = sortedExtraSlots?.filter(
+    (s) => s.date >= toDateKey(new Date()),
+  );
+
+  return (
+    <div className="rounded-2xl border border-sage-100 bg-white p-5">
+      <p className="text-sm font-semibold text-stone-700">
+        Ajouter un créneau ponctuel
+      </p>
+      <p className="mt-1 text-xs text-stone-400">
+        Une place précise, pour une prestation précise, en plus des horaires
+        habituels (même un jour normalement fermé).
+      </p>
+
+      {error && <p className="mt-3 text-red-600">{error}</p>}
+
+      <div className="mt-4 space-y-4">
+        <div className="rounded-xl border border-sage-100 p-2">
+          <Calendar
+            month={visibleMonth}
+            onMonthChange={setVisibleMonth}
+            selected={date}
+            onSelect={setDate}
+            startMonth={today}
+          />
+        </div>
+
+        <div className="flex gap-3">
+          <div className="flex-1">
+            <label className="mb-1.5 block text-xs font-medium text-stone-600">
+              Début
+            </label>
+            <input
+              type="time"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+              className="w-full rounded-xl border border-sage-200 bg-white px-3 py-2.5 text-sm text-stone-800 outline-none focus:border-sage-500"
+            />
+          </div>
+          <div className="flex-1">
+            <label className="mb-1.5 block text-xs font-medium text-stone-600">
+              Fin
+            </label>
+            <input
+              type="time"
+              value={endTime}
+              onChange={(e) => setEndTime(e.target.value)}
+              className="w-full rounded-xl border border-sage-200 bg-white px-3 py-2.5 text-sm text-stone-800 outline-none focus:border-sage-500"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="mb-1.5 block text-xs font-medium text-stone-600">
+            Prestation
+          </label>
+          <Select
+            value={serviceId ?? ""}
+            onChange={(e) => setSelectedServiceId(Number(e.target.value))}
+            disabled={compatibleServices.length === 0}
+          >
+            {compatibleServices.length === 0 && (
+              <option value="">Aucune prestation ne rentre dans ce créneau</option>
+            )}
+            {compatibleServices.map((service) => (
+              <option key={service.id} value={service.id}>
+                {service.name} — {formatDuration(service.durationMinutes)}
+              </option>
+            ))}
+          </Select>
+        </div>
+
+        <Button
+          type="button"
+          onClick={handleAdd}
+          disabled={status === "loading" || !date || !serviceId}
+          className="w-full"
+        >
+          Ajouter
+        </Button>
+      </div>
+
+      {upcomingExtraSlots && upcomingExtraSlots.length > 0 && (
+        <ul className="mt-5 space-y-2 border-t border-sage-100 pt-4">
+          {upcomingExtraSlots.map((slot) => {
+            const service = services?.find((s) => s.id === slot.serviceId);
+            return (
+              <li
+                key={slot.id}
+                className="flex items-center justify-between rounded-lg bg-sage-50 px-2.5 py-1.5 text-xs text-sage-700"
+              >
+                <span>
+                  {new Date(slot.date + "T12:00:00").toLocaleDateString(
+                    "fr-FR",
+                    { day: "numeric", month: "long" },
+                  )}{" "}
+                  · {slot.startTime} – {slot.endTime}
+                  {service ? ` · ${service.name}` : ""}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => handleRemove(slot.id)}
+                  className="cursor-pointer text-stone-400 hover:text-red-600"
+                  aria-label="Supprimer"
+                >
+                  ✕
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+
+      {upcomingExtraSlots && upcomingExtraSlots.length === 0 && (
+        <p className="mt-4 text-sm text-stone-400">
+          Aucun créneau ponctuel à venir.
+        </p>
+      )}
+    </div>
   );
 }
 
@@ -374,11 +581,15 @@ function ExceptionsSection() {
     }
   }
 
-  async function handleRemoveAll() {
-    if (!exceptions?.length) return;
+  async function handleRemoveAll(
+    source: "MANUAL" | "HOLIDAY",
+    items: Exception[],
+  ) {
+    if (!items.length) return;
+    const label = source === "HOLIDAY" ? "jour(s) férié(s)" : "fermeture(s)";
     if (
       !window.confirm(
-        `Supprimer les ${exceptions.length} exception(s) enregistrée(s) (jours fériés, congés, périodes) ? Cette action est irréversible.`,
+        `Supprimer les ${items.length} ${label} enregistré(s) ? Cette action est irréversible.`,
       )
     ) {
       return;
@@ -386,7 +597,7 @@ function ExceptionsSection() {
     setImportStatus("loading");
     setError(null);
     try {
-      await removeAllExceptions();
+      await removeAllExceptions(source);
       refresh();
     } catch (err) {
       setError(
@@ -399,8 +610,15 @@ function ExceptionsSection() {
     }
   }
 
-  const sortedExceptions = exceptions
-    ? [...exceptions].sort((a, b) => a.date.localeCompare(b.date))
+  const manualExceptions = exceptions
+    ? [...exceptions]
+        .filter((e) => e.source === "MANUAL")
+        .sort((a, b) => a.date.localeCompare(b.date))
+    : null;
+  const holidayExceptions = exceptions
+    ? [...exceptions]
+        .filter((e) => e.source === "HOLIDAY")
+        .sort((a, b) => a.date.localeCompare(b.date))
     : null;
 
   return (
@@ -539,27 +757,59 @@ function ExceptionsSection() {
         <div className="flex flex-wrap items-end justify-between gap-3 border-b border-sage-100 p-5">
           <div>
             <p className="text-sm font-semibold text-stone-700">
+              Fermetures
+            </p>
+            <p className="mt-1 text-xs text-stone-400">
+              Jours de congé, périodes de vacances ou horaires modifiés,
+              ajoutés manuellement ci-dessus.
+            </p>
+          </div>
+
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() =>
+              handleRemoveAll("MANUAL", manualExceptions ?? [])
+            }
+            disabled={importStatus === "loading" || !manualExceptions?.length}
+            withArrow={false}
+          >
+            Tout supprimer
+          </Button>
+        </div>
+
+        <ExceptionList
+          exceptions={manualExceptions}
+          emptyLabel="Aucune fermeture enregistrée."
+          onRemove={handleRemove}
+        />
+      </div>
+
+      <div className="mt-6 rounded-2xl border border-sage-100 bg-white">
+        <div className="flex flex-wrap items-end justify-between gap-3 border-b border-sage-100 p-5">
+          <div>
+            <p className="text-sm font-semibold text-stone-700">
               Jours fériés français
             </p>
             <p className="mt-1 text-xs text-stone-400">
               Importe automatiquement les 11 jours fériés de l&apos;année
               choisie (fermé toute la journée). Chaque jour reste ensuite
-              modifiable ou supprimable individuellement ci-dessous.
+              supprimable individuellement ci-dessous.
             </p>
           </div>
 
           <div className="flex items-end gap-2">
-            <select
+            <Select
               value={importYear}
               onChange={(e) => setImportYear(Number(e.target.value))}
-              className="rounded-xl border border-sage-200 bg-white px-3 py-2.5 text-sm text-stone-800 outline-none focus:border-sage-500"
+              className="w-auto"
             >
               {holidayYearOptions.map((year) => (
                 <option key={year} value={year}>
                   {year}
                 </option>
               ))}
-            </select>
+            </Select>
             <Button
               type="button"
               variant="secondary"
@@ -572,8 +822,12 @@ function ExceptionsSection() {
             <Button
               type="button"
               variant="ghost"
-              onClick={handleRemoveAll}
-              disabled={importStatus === "loading" || !exceptions?.length}
+              onClick={() =>
+                handleRemoveAll("HOLIDAY", holidayExceptions ?? [])
+              }
+              disabled={
+                importStatus === "loading" || !holidayExceptions?.length
+              }
               withArrow={false}
             >
               Tout supprimer
@@ -581,54 +835,68 @@ function ExceptionsSection() {
           </div>
         </div>
 
-        {sortedExceptions === null && (
-          <div className="h-24 animate-pulse bg-sage-50" />
-        )}
-
-        {sortedExceptions !== null && sortedExceptions.length === 0 && (
-          <p className="p-5 text-sm text-stone-400">
-            Aucune exception enregistrée.
-          </p>
-        )}
-
-        {sortedExceptions !== null && sortedExceptions.length > 0 && (
-          <ul className="divide-y divide-sage-100">
-            {sortedExceptions.map((exception) => (
-              <li
-                key={exception.id}
-                className="flex items-center justify-between px-5 py-3 text-sm"
-              >
-                <div>
-                  <span className="font-medium text-stone-700">
-                    {new Date(exception.date + "T12:00:00").toLocaleDateString(
-                      "fr-FR",
-                      {
-                        weekday: "long",
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      },
-                    )}
-                  </span>
-                  <span className="ml-3 text-stone-400">
-                    {exception.isClosed
-                      ? "Fermé"
-                      : `${exception.startTime} – ${exception.endTime}`}
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => handleRemove(exception.id)}
-                  className="cursor-pointer text-stone-400 hover:text-red-600"
-                  aria-label="Supprimer"
-                >
-                  ✕
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+        <ExceptionList
+          exceptions={holidayExceptions}
+          emptyLabel="Aucun jour férié importé."
+          onRemove={handleRemove}
+        />
       </div>
     </section>
+  );
+}
+
+function ExceptionList({
+  exceptions,
+  emptyLabel,
+  onRemove,
+}: {
+  exceptions: Exception[] | null;
+  emptyLabel: string;
+  onRemove: (id: number) => void;
+}) {
+  if (exceptions === null) {
+    return <div className="h-24 animate-pulse bg-sage-50" />;
+  }
+
+  if (exceptions.length === 0) {
+    return <p className="p-5 text-sm text-stone-400">{emptyLabel}</p>;
+  }
+
+  return (
+    <ul className="divide-y divide-sage-100">
+      {exceptions.map((exception) => (
+        <li
+          key={exception.id}
+          className="flex items-center justify-between px-5 py-3 text-sm"
+        >
+          <div>
+            <span className="font-medium text-stone-700">
+              {new Date(exception.date + "T12:00:00").toLocaleDateString(
+                "fr-FR",
+                {
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                },
+              )}
+            </span>
+            <span className="ml-3 text-stone-400">
+              {exception.isClosed
+                ? "Fermé"
+                : `${exception.startTime} – ${exception.endTime}`}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => onRemove(exception.id)}
+            className="cursor-pointer text-stone-400 hover:text-red-600"
+            aria-label="Supprimer"
+          >
+            ✕
+          </button>
+        </li>
+      ))}
+    </ul>
   );
 }

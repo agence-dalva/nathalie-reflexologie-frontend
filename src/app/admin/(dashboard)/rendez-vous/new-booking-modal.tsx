@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { PhoneInput } from "@/components/ui/phone-input";
+import { Select } from "@/components/ui/select";
 import { formatDuration, formatPrice } from "@/lib/format";
 
 const timeFormatter = new Intl.DateTimeFormat("fr-FR", {
@@ -125,10 +126,10 @@ export function NewBookingModal({
           <label className="mb-1.5 block text-sm font-medium text-stone-600">
             Prestation
           </label>
-          <select
+          <Select
             value={serviceId ?? ""}
             onChange={(e) => setServiceId(Number(e.target.value) || null)}
-            className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none focus:border-sage-500"
+            className="w-full py-3 pr-10 pl-4 text-stone-800"
           >
             <option value="">Sélectionner…</option>
             {services.map((s) => (
@@ -136,7 +137,7 @@ export function NewBookingModal({
                 {s.name} — {formatDuration(s.durationMinutes)} — {formatPrice(s.price)}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
 
         {serviceId && (
