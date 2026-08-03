@@ -8,6 +8,7 @@ export type Service = {
   bufferMinutes: number;
   price: string;
   active: boolean;
+  order: number;
 };
 
 export type Timeslot = {
@@ -258,6 +259,13 @@ export function updateService(id: number, payload: Partial<ServiceInput>) {
 
 export function deleteService(id: number) {
   return apiFetch<void>(`/services/${id}`, { method: "DELETE" });
+}
+
+export function reorderServices(ids: number[]) {
+  return apiFetch<Service[]>("/services/reorder", {
+    method: "PATCH",
+    body: JSON.stringify({ ids }),
+  });
 }
 
 // --- Availability (admin) ---

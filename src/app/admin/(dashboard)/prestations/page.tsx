@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Reorder } from "framer-motion";
 import {
   ApiError,
   deleteService,
   getServicesAdmin,
+  reorderServices,
   type Service,
 } from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -18,6 +20,7 @@ export default function AdminServicesPage() {
   const [editing, setEditing] = useState<Service | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [reorderError, setReorderError] = useState<string | null>(null);
 
   function refresh() {
     getServicesAdmin()
@@ -25,6 +28,21 @@ export default function AdminServicesPage() {
       .catch((err) =>
         setError(err instanceof ApiError ? err.message : "Impossible de charger les prestations."),
       );
+  }
+
+  async function handleReorder(reordered: Service[]) {
+    setServices(reordered);
+    setReorderError(null);
+    try {
+      await reorderServices(reordered.map((s) => s.id));
+    } catch (err) {
+      setReorderError(
+        err instanceof ApiError
+          ? err.message
+          : "Impossible d'enregistrer le nouvel ordre.",
+      );
+      refresh();
+    }
   }
 
   useEffect(() => {
@@ -72,6 +90,7 @@ export default function AdminServicesPage() {
 
       {error && <p className="mt-6 text-red-600">{error}</p>}
       {deleteError && <p className="mt-4 text-red-600">{deleteError}</p>}
+      {reorderError && <p className="mt-4 text-red-600">{reorderError}</p>}
 
       {!error && services === null && (
         <div className="mt-8 space-y-3">
@@ -82,68 +101,93 @@ export default function AdminServicesPage() {
       )}
 
       {services && (
-        <div className="mt-8 overflow-x-auto rounded-2xl border border-sage-100 bg-white">
-          <table className="w-full min-w-180 text-left text-sm">
-            <thead>
-              <tr className="border-b border-sage-100 text-xs font-semibold tracking-wide text-stone-400 uppercase">
-                <th className="px-6 py-3 font-semibold">Nom</th>
-                <th className="px-6 py-3 font-semibold">Description</th>
-                <th className="px-6 py-3 font-semibold">Durée</th>
-                <th className="px-6 py-3 font-semibold">Prix</th>
-                <th className="px-6 py-3 font-semibold">Statut</th>
-                <th className="px-6 py-3" />
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-sage-100">
-              {services.map((service) => (
-                <tr key={service.id}>
-                  <td className="px-6 py-4 font-medium text-stone-700">
-                    {service.name}
-                  </td>
-                  <td className="max-w-xs px-6 py-4 text-stone-500">
-                    {service.description}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-stone-500">
-                    {formatDuration(service.durationMinutes)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap font-medium text-stone-700">
-                    {formatPrice(service.price)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {service.active ? (
-                      <span className="inline-flex items-center rounded-full bg-sage-100 px-2.5 py-1 text-xs font-medium text-sage-700">
-                        Active
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center rounded-full bg-stone-100 px-2.5 py-1 text-xs font-medium text-stone-500">
-                        Inactive
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex justify-end gap-3">
-                      <button
-                        type="button"
-                        onClick={() => openEdit(service)}
-                        className="text-sage-600 hover:underline"
-                      >
-                        Modifier
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(service)}
-                        disabled={deletingId === service.id}
-                        className="text-red-600 hover:underline"
-                      >
-                        {deletingId === service.id ? "…" : "Supprimer"}
-                      </button>
-                    </div>
-                  </td>
+        <>
+          <p className="mt-6 text-xs text-stone-400">
+            Glissez-déposez une ligne (⠿) pour changer l&apos;ordre
+            d&apos;affichage sur le site.
+          </p>
+          <div className="mt-3 overflow-x-auto rounded-2xl border border-sage-100 bg-white">
+            <table className="w-full min-w-180 text-left text-sm">
+              <thead>
+                <tr className="border-b border-sage-100 text-xs font-semibold tracking-wide text-stone-400 uppercase">
+                  <th className="w-10 px-3 py-3" />
+                  <th className="px-6 py-3 font-semibold">Nom</th>
+                  <th className="px-6 py-3 font-semibold">Description</th>
+                  <th className="px-6 py-3 font-semibold">Durée</th>
+                  <th className="px-6 py-3 font-semibold">Prix</th>
+                  <th className="px-6 py-3 font-semibold">Statut</th>
+                  <th className="px-6 py-3" />
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <Reorder.Group
+                as="tbody"
+                axis="y"
+                values={services}
+                onReorder={handleReorder}
+                className="divide-y divide-sage-100"
+              >
+                {services.map((service) => (
+                  <Reorder.Item
+                    key={service.id}
+                    value={service}
+                    as="tr"
+                    className="cursor-grab bg-white active:cursor-grabbing"
+                    whileDrag={{
+                      boxShadow: "0 10px 30px -10px rgba(43,58,48,0.35)",
+                      backgroundColor: "var(--color-sage-50)",
+                    }}
+                  >
+                    <td className="px-3 py-4 text-center text-stone-300">
+                      ⠿
+                    </td>
+                    <td className="px-6 py-4 font-medium text-stone-700">
+                      {service.name}
+                    </td>
+                    <td className="max-w-xs px-6 py-4 text-stone-500">
+                      {service.description}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-stone-500">
+                      {formatDuration(service.durationMinutes)}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap font-medium text-stone-700">
+                      {formatPrice(service.price)}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {service.active ? (
+                        <span className="inline-flex items-center rounded-full bg-sage-100 px-2.5 py-1 text-xs font-medium text-sage-700">
+                          Active
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center rounded-full bg-stone-100 px-2.5 py-1 text-xs font-medium text-stone-500">
+                          Inactive
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex justify-end gap-3">
+                        <button
+                          type="button"
+                          onClick={() => openEdit(service)}
+                          className="text-sage-600 hover:underline"
+                        >
+                          Modifier
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(service)}
+                          disabled={deletingId === service.id}
+                          className="text-red-600 hover:underline"
+                        >
+                          {deletingId === service.id ? "…" : "Supprimer"}
+                        </button>
+                      </div>
+                    </td>
+                  </Reorder.Item>
+                ))}
+              </Reorder.Group>
+            </table>
+          </div>
+        </>
       )}
 
       <ServiceFormModal

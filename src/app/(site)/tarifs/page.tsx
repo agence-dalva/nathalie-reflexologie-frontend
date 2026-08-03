@@ -72,18 +72,6 @@ const featuredImagePositions: Record<string, string> = {
   "Réflexologie palmaire": "object-[65%_0%]",
 };
 
-const otherServicesOrder = [
-  "Réflexologie plantaire — accompagnement oncologie",
-  "Réflexologie plantaire bébé / enfant (jusqu'à 11 ans)",
-  "Réflexologie plantaire + palmaire",
-  "Réflexologie plantaire à domicile",
-  "Réflexologie plantaire + massage assis",
-  "Forfait 4 séances — suivi réflexologie plantaire",
-  "Réflexologie crânio-faciale + palmaire",
-  "Réflexologie crânio-faciale + massage assis",
-  "Massage assis",
-];
-
 const cranioBenefits = [
   "Migraines, céphalées",
   "Problèmes ORL, sinusite, otite",
@@ -100,12 +88,7 @@ export default async function TarifsPage() {
     .map((name) => services.find((s) => s.name === name))
     .filter((s): s is Service => Boolean(s));
   const featuredIds = new Set(featured.map((s) => s.id));
-  const otherServices = services
-    .filter((s) => !featuredIds.has(s.id))
-    .sort(
-      (a, b) =>
-        otherServicesOrder.indexOf(a.name) - otherServicesOrder.indexOf(b.name),
-    );
+  const otherServices = services.filter((s) => !featuredIds.has(s.id));
   const massageAssisService = services.find((s) => s.name === "Massage assis");
 
   return (
