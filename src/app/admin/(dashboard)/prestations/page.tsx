@@ -168,7 +168,7 @@ export default function AdminServicesPage() {
                         <button
                           type="button"
                           onClick={() => openEdit(service)}
-                          className="text-sage-600 hover:underline"
+                          className="cursor-pointer text-sage-600 hover:underline"
                         >
                           Modifier
                         </button>
@@ -176,7 +176,7 @@ export default function AdminServicesPage() {
                           type="button"
                           onClick={() => handleDelete(service)}
                           disabled={deletingId === service.id}
-                          className="text-red-600 hover:underline"
+                          className="cursor-pointer text-red-600 hover:underline"
                         >
                           {deletingId === service.id ? "…" : "Supprimer"}
                         </button>

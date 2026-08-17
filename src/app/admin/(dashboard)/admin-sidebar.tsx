@@ -3,16 +3,31 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import {
+  CalendarClock,
+  CalendarPlus,
+  Clock,
+  LayoutDashboard,
+  LogOut,
+  Mail,
+  Sparkles,
+  Users,
+} from "lucide-react";
 import { logout } from "@/lib/api";
 import { useAdminSessionStore } from "@/stores/admin-session-store";
 
 const links = [
-  { href: "/admin/dashboard", label: "Tableau de bord", icon: "◧" },
-  { href: "/admin/rendez-vous", label: "Rendez-vous", icon: "◷" },
-  { href: "/admin/clients", label: "Clients", icon: "◐" },
-  { href: "/admin/prestations", label: "Prestations", icon: "◈" },
-  { href: "/admin/horaires", label: "Horaires", icon: "▤" },
-  { href: "/admin/emails", label: "Emails", icon: "✉" },
+  { href: "/admin/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
+  { href: "/admin/rendez-vous", label: "Rendez-vous", icon: CalendarClock },
+  { href: "/admin/clients", label: "Clients", icon: Users },
+  { href: "/admin/prestations", label: "Prestations", icon: Sparkles },
+  { href: "/admin/horaires", label: "Horaires", icon: Clock },
+  {
+    href: "/admin/disponibilites",
+    label: "Congés & créneaux",
+    icon: CalendarPlus,
+  },
+  { href: "/admin/emails", label: "Emails", icon: Mail },
 ] as const;
 
 export function AdminSidebar() {
@@ -43,6 +58,7 @@ export function AdminSidebar() {
       <nav className="flex-1 space-y-1 px-3 py-4">
         {links.map((link) => {
           const active = pathname.startsWith(link.href);
+          const Icon = link.icon;
           return (
             <Link
               key={link.href}
@@ -53,7 +69,11 @@ export function AdminSidebar() {
                   : "text-stone-500 hover:bg-sage-50 hover:text-sage-700"
               }`}
             >
-              <span className="text-base">{link.icon}</span>
+              <Icon
+                size={18}
+                strokeWidth={active ? 2 : 1.75}
+                className={`shrink-0 ${active ? "text-sage-600" : "text-stone-400"}`}
+              />
               {link.label}
             </Link>
           );
@@ -68,8 +88,9 @@ export function AdminSidebar() {
           type="button"
           onClick={handleLogout}
           disabled={loggingOut}
-          className="mt-2 w-full rounded-xl px-3 py-2.5 text-left text-sm font-medium text-stone-500 transition-colors hover:bg-red-50 hover:text-red-600"
+          className="mt-2 flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-stone-500 transition-colors hover:bg-red-50 hover:text-red-600"
         >
+          <LogOut size={18} strokeWidth={1.75} className="shrink-0" />
           {loggingOut ? "Déconnexion…" : "Se déconnecter"}
         </button>
       </div>

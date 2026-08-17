@@ -60,6 +60,8 @@ type CalendarProps = {
   startMonth?: Date;
   endMonth?: Date;
   loading?: boolean;
+  /** Jours à mettre en avant (ex: dates portant déjà un créneau ponctuel). */
+  marked?: Matcher | Matcher[];
 };
 
 export function Calendar({
@@ -71,6 +73,7 @@ export function Calendar({
   startMonth,
   endMonth,
   loading,
+  marked,
 }: CalendarProps) {
   return (
     <DayPicker
@@ -88,6 +91,12 @@ export function Calendar({
       components={calendarComponents}
       className={loading ? "animate-pulse" : undefined}
       classNames={calendarClassNames}
+      modifiers={marked ? { marked } : undefined}
+      modifiersClassNames={{
+        // Un anneau plutôt qu'un fond, pour rester lisible même sur un jour
+        // sélectionné (fond sage-600) ou survolé.
+        marked: "[&>button]:ring-2 [&>button]:ring-inset [&>button]:ring-sage-300",
+      }}
     />
   );
 }

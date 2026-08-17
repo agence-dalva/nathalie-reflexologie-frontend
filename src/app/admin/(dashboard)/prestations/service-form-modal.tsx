@@ -9,6 +9,10 @@ import {
   type ServiceInput,
 } from "@/lib/api";
 import { Button } from "@/components/ui/button";
+import {
+  BUFFER_OPTIONS,
+  DurationSelect,
+} from "@/components/ui/duration-select";
 import { Modal } from "@/components/ui/modal";
 
 function toFormState(service: Service | null): ServiceInput {
@@ -94,46 +98,43 @@ export function ServiceFormModal({
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div>
             <label className="mb-1.5 block text-sm font-medium text-stone-600">
-              Durée (min)
+              Durée
             </label>
-            <input
-              type="number"
-              min={5}
+            <DurationSelect
               value={form.durationMinutes}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, durationMinutes: Number(e.target.value) }))
+              onChange={(durationMinutes) =>
+                setForm((f) => ({ ...f, durationMinutes }))
               }
-              className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none focus:border-sage-500"
             />
           </div>
           <div>
             <label className="mb-1.5 block text-sm font-medium text-stone-600">
-              Battement (min)
+              Battement
             </label>
-            <input
-              type="number"
-              min={0}
-              value={form.bufferMinutes}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, bufferMinutes: Number(e.target.value) }))
+            <DurationSelect
+              value={form.bufferMinutes ?? 0}
+              options={BUFFER_OPTIONS}
+              zeroLabel="Aucun"
+              onChange={(bufferMinutes) =>
+                setForm((f) => ({ ...f, bufferMinutes }))
               }
-              className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none focus:border-sage-500"
             />
           </div>
           <div>
             <label className="mb-1.5 block text-sm font-medium text-stone-600">
               Prix (€)
             </label>
+            {/* px/py alignés sur les deux listes déroulantes de la même ligne. */}
             <input
               type="number"
               min={0}
               step="0.01"
               value={form.price}
               onChange={(e) => setForm((f) => ({ ...f, price: Number(e.target.value) }))}
-              className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none focus:border-sage-500"
+              className="w-full rounded-xl border border-sage-200 bg-white px-3 py-2.5 text-sm text-stone-800 outline-none focus:border-sage-500"
             />
           </div>
         </div>
@@ -143,7 +144,7 @@ export function ServiceFormModal({
             type="checkbox"
             checked={form.active}
             onChange={(e) => setForm((f) => ({ ...f, active: e.target.checked }))}
-            className="h-4 w-4 rounded border-sage-300 text-sage-600 focus:ring-sage-500"
+            className="h-4 w-4 rounded border-sage-300 accent-sage-600 focus:ring-sage-500"
           />
           Prestation active (visible sur le site)
         </label>

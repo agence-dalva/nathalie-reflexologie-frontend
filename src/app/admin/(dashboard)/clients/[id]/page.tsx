@@ -82,6 +82,39 @@ export default function AdminClientDetailPage({
                 </dd>
               </div>
             </dl>
+
+            {/* Un compteur à 0 n'apprend rien : on n'affiche le bloc que s'il y
+                a réellement un historique repris. */}
+            {(client.importedBookingsCount ?? 0) > 0 && (
+              <div className="mt-5 flex flex-wrap items-baseline gap-x-2 gap-y-1 border-t border-sage-100 pt-5">
+                <p className="text-sm text-stone-700">
+                  <span className="font-medium text-sage-800">
+                    {client.importedBookingsCount} séance
+                    {(client.importedBookingsCount ?? 0) > 1 ? "s" : ""}
+                  </span>{" "}
+                  avant la reprise en ligne
+                  {client.importedLastBookingAt && (
+                    <>
+                      , dernière le{" "}
+                      <span className="font-medium text-sage-800">
+                        {new Date(
+                          client.importedLastBookingAt,
+                        ).toLocaleDateString("fr-FR", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </span>
+                    </>
+                  )}
+                  .
+                </p>
+                <p className="text-xs text-stone-400">
+                  Repris de l&apos;ancien outil : le détail des séances
+                  n&apos;était pas exportable.
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="mt-8">

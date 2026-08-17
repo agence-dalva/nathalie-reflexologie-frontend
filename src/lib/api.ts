@@ -60,7 +60,14 @@ export type ExtraSlot = {
   date: string;
   startTime: string;
   endTime: string;
-  serviceId: number;
+  serviceIds: number[];
+};
+
+export type ExtraSlotInput = {
+  date: string;
+  startTime: string;
+  endTime: string;
+  serviceIds: number[];
 };
 
 export type DashboardOverview = {
@@ -80,6 +87,9 @@ export type Client = {
   phone: string | null;
   createdAt: string;
   updatedAt: string;
+  /** Séances déjà effectuées dans l'ancien outil, reprises par import CSV. */
+  importedBookingsCount: number | null;
+  importedLastBookingAt: string | null;
 };
 
 export type ClientWithBookings = Client & {
@@ -358,21 +368,52 @@ export function getExtraSlots() {
   });
 }
 
-export function createExtraSlot(payload: {
-  date: string;
-  startTime: string;
-  endTime: string;
-  serviceId: number;
-}) {
+export function createExtraSlot(payload: ExtraSlotInput) {
   return apiFetch<ExtraSlot>("/availability/extra-slots", {
     method: "POST",
     body: JSON.stringify(payload),
   });
 }
 
+export function createExtraSlots(slots: ExtraSlotInput[]) {
+  return apiFetch<ExtraSlot[]>("/availability/extra-slots/bulk", {
+    method: "POST",
+    body: JSON.stringify({ slots }),
+  });
+}
+
 export function deleteExtraSlot(id: number) {
   return apiFetch<void>(`/availability/extra-slots/${id}`, {
     method: "DELETE",
+  });
+}
+
+export function deleteExtraSlotsByDate(date: string) {
+  return apiFetch<{ count: number }>(
+    `/availability/extra-slots?date=${date}`,
+    { method: "DELETE" },
+  );
+}
+
+export type ClientImportInput = {
+  firstname: string;
+  lastname: string;
+  email: string;
+  phone?: string;
+  importedBookingsCount?: number;
+  importedLastBookingAt?: string;
+};
+
+export type ClientImportResult = {
+  created: number;
+  updated: number;
+  unchanged: number;
+};
+
+export function importClients(clients: ClientImportInput[]) {
+  return apiFetch<ClientImportResult>("/clients/import", {
+    method: "POST",
+    body: JSON.stringify({ clients }),
   });
 }
 
