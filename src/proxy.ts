@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 
 // La session est un cookie posé par le backend Railway, sur un domaine
 // distinct du frontend Vercel. Ce middleware tourne côté serveur Vercel et
@@ -9,7 +8,7 @@ import type { NextRequest } from "next/server";
 // /auth/me avec credentials: include (le navigateur, lui, envoie bien le
 // cookie cross-origin) et redirige vers /admin/login si la session est
 // invalide.
-export function proxy(_request: NextRequest) {
+export function proxy() {
   return NextResponse.next();
 }
 

@@ -79,7 +79,6 @@ export function EditBookingModal({
         }
       })
       .catch(() => setSlots([]));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [booking, serviceId, date]);
 
   async function handleSubmit() {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useBookingStore } from "@/stores/booking-store";
-import { formatDuration, formatPrice } from "@/lib/format";
+import { formatPrice } from "@/lib/format";
 
 const dateFormatter = new Intl.DateTimeFormat("fr-FR", {
   day: "numeric",
