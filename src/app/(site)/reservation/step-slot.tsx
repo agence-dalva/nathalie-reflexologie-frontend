@@ -117,7 +117,8 @@ export function StepSlot() {
             month={visibleMonth}
             onMonthChange={setVisibleMonth}
             startMonth={new Date(today.getFullYear(), today.getMonth(), 1)}
-            endMonth={new Date(today.getFullYear(), today.getMonth() + 2, 1)}
+            // Réservable jusqu'au même mois l'an prochain.
+            endMonth={new Date(today.getFullYear(), today.getMonth() + 12, 1)}
             selected={selectedAsDate}
             onSelect={(date) => date && setSelectedDate(toDateKey(date))}
             disabled={(date) => {
