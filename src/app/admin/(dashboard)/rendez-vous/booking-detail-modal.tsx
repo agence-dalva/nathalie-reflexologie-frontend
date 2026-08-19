@@ -113,7 +113,7 @@ export function BookingDetailModal({
           {booking.notes && (
             <div className="rounded-2xl border border-sage-100 bg-sage-50/50 p-6">
               <p className="text-[0.68rem] font-medium tracking-wide text-stone-400 uppercase">
-                Message
+                Motif
               </p>
               <p className="mt-2 text-sm leading-relaxed text-stone-700">
                 {booking.notes}

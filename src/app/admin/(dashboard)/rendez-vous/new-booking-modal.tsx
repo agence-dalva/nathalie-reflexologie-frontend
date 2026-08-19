@@ -62,6 +62,7 @@ export function NewBookingModal({
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [notes, setNotes] = useState("");
   const [status, setStatus] = useState<"idle" | "loading">("idle");
   const [error, setError] = useState<string | null>(null);
 
@@ -89,6 +90,7 @@ export function NewBookingModal({
     setLastname("");
     setEmail("");
     setPhone("");
+    setNotes("");
     setError(null);
   }
 
@@ -104,6 +106,7 @@ export function NewBookingModal({
         customerLastname: lastname,
         customerEmail: email,
         customerPhone: phone || undefined,
+        notes: notes.trim(),
       });
       reset();
       onCreated();
@@ -286,6 +289,18 @@ export function NewBookingModal({
                 />
               </div>
             </div>
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-stone-600">
+                Motif
+              </label>
+              <textarea
+                rows={3}
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="La raison de la venue, en quelques mots"
+                className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none placeholder:text-stone-400 focus:border-sage-500"
+              />
+            </div>
           </>
         )}
 
@@ -295,7 +310,12 @@ export function NewBookingModal({
           type="button"
           onClick={handleSubmit}
           disabled={
-            !selectedSlot || !firstname || !lastname || !email || status === "loading"
+            !selectedSlot ||
+            !firstname ||
+            !lastname ||
+            !email ||
+            !notes.trim() ||
+            status === "loading"
           }
           className="w-full"
         >

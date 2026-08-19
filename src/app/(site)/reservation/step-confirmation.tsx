@@ -53,7 +53,7 @@ export function StepConfirmation() {
             bookingFor === "other" ? beneficiary.lastname || undefined : undefined,
           beneficiaryPhone:
             bookingFor === "other" ? beneficiary.phone || undefined : undefined,
-          notes: customer.notes || undefined,
+          notes: customer.notes,
         },
         idempotencyKey,
       );
@@ -129,7 +129,7 @@ export function StepConfirmation() {
         {customer.notes && (
           <div className="border-t border-sage-100 pt-4">
             <p className="text-[0.68rem] font-medium tracking-wide text-stone-400 uppercase">
-              Message
+              Motif
             </p>
             <p className="mt-2 text-sm leading-relaxed text-stone-700">
               {customer.notes}

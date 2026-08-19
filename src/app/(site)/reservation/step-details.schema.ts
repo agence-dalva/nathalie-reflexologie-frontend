@@ -18,7 +18,7 @@ export const customerSchema = z.object({
   lastname: requiredName,
   email: z.string().trim().min(1, "L'email est requis").email("Email invalide"),
   phone: requiredPhone,
-  notes: z.string().optional(),
+  notes: z.string().trim().min(1, "Le motif est requis"),
 });
 
 export const beneficiarySchema = z.object({

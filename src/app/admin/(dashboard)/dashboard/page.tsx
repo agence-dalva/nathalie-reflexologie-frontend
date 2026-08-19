@@ -83,17 +83,25 @@ export default function AdminDashboardPage() {
                   {data.nextBookings.map((booking) => (
                     <li
                       key={booking.id}
-                      className="flex items-center justify-between py-3"
+                      className="flex items-center justify-between gap-4 py-3"
                     >
-                      <div>
+                      <div className="min-w-0">
                         <p className="text-sm font-medium text-stone-700">
                           {booking.customerFirstname} {booking.customerLastname}
                         </p>
                         <p className="text-xs text-stone-400">
                           {booking.service.name}
                         </p>
+                        {booking.notes && (
+                          <p
+                            title={booking.notes}
+                            className="mt-0.5 truncate text-xs text-stone-500"
+                          >
+                            {booking.notes}
+                          </p>
+                        )}
                       </div>
-                      <span className="text-sm text-stone-500 capitalize">
+                      <span className="shrink-0 text-sm text-stone-500 capitalize">
                         {dateFormatter.format(new Date(booking.startsAt))}
                       </span>
                     </li>

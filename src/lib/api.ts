@@ -198,7 +198,7 @@ export function createBooking(
     beneficiaryFirstname?: string;
     beneficiaryLastname?: string;
     beneficiaryPhone?: string;
-    notes?: string;
+    notes: string;
   },
   idempotencyKey: string,
 ) {
@@ -440,7 +440,7 @@ export function createBookingAdmin(payload: {
   customerLastname: string;
   customerEmail: string;
   customerPhone?: string;
-  notes?: string;
+  notes: string;
 }) {
   return apiFetch<Booking>("/bookings/admin", {
     method: "POST",

@@ -35,10 +35,14 @@ export default function AdminBookingsPage() {
   const [viewingBooking, setViewingBooking] = useState<Booking | null>(null);
   const [cancellingId, setCancellingId] = useState<number | null>(null);
   const [confirmCancelBooking, setConfirmCancelBooking] = useState<Booking | null>(null);
+  const [now, setNow] = useState(() => Date.now());
 
   function refresh() {
     getBookingsAdmin()
-      .then(setBookings)
+      .then((fetched) => {
+        setNow(Date.now());
+        setBookings(fetched);
+      })
       .catch((err) =>
         setError(err instanceof ApiError ? err.message : "Impossible de charger les rendez-vous."),
       );
@@ -50,7 +54,6 @@ export default function AdminBookingsPage() {
 
   const filtered = useMemo(() => {
     if (!bookings) return null;
-    const now = Date.now();
     return bookings
       .filter((b) => {
         if (filter === "upcoming") return new Date(b.startsAt).getTime() >= now;
@@ -58,7 +61,7 @@ export default function AdminBookingsPage() {
         return true;
       })
       .sort((a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime());
-  }, [bookings, filter]);
+  }, [bookings, filter, now]);
 
   async function handleCancel(id: number) {
     setCancellingId(id);
@@ -152,11 +155,21 @@ export default function AdminBookingsPage() {
                     </p>
                   )}
                 </div>
-                <div className="text-sm text-stone-600">
-                  {booking.service.name}
-                  <span className="ml-2 text-xs text-stone-400">
-                    {formatPrice(booking.service.price)}
+                <div className="min-w-0 text-sm text-stone-600">
+                  <span>
+                    {booking.service.name}
+                    <span className="ml-2 text-xs text-stone-400">
+                      {formatPrice(booking.service.price)}
+                    </span>
                   </span>
+                  {booking.notes && (
+                    <p
+                      title={booking.notes}
+                      className="mt-0.5 truncate text-xs text-stone-500"
+                    >
+                      {booking.notes}
+                    </p>
+                  )}
                 </div>
                 <span className="text-sm text-stone-500 capitalize">
                   {dateFormatter.format(new Date(booking.startsAt))}

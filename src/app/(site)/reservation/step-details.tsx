@@ -190,15 +190,18 @@ export function StepDetails() {
           htmlFor="notes"
           className="mb-1.5 block text-sm font-medium text-stone-600"
         >
-          Message (facultatif)
+          Motif
         </label>
         <textarea
           id="notes"
           rows={3}
+          required
+          placeholder="En quelques mots, la raison de votre venue"
           value={customer.notes}
           onChange={(e) => setCustomer({ notes: e.target.value })}
-          className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none transition-colors focus:border-sage-500"
+          className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none transition-colors placeholder:text-stone-400 focus:border-sage-500"
         />
+        <FieldError message={customerErrors.notes} />
       </div>
 
       <Button type="submit" size="lg" className="w-full cursor-pointer sm:w-auto">
