@@ -164,8 +164,11 @@ export function StepSlot() {
               today:
                 "[&>button]:relative [&>button]:after:absolute [&>button]:after:bottom-1.5 [&>button]:after:h-1 [&>button]:after:w-1 [&>button]:after:rounded-full [&>button]:after:bg-terracotta-500",
               outside: "[&>button]:text-transparent [&>button]:pointer-events-none",
+              // Jour fermé ou complet : il reste lisible, simplement grisé —
+              // `opacity-100!` neutralise l'estompage de react-day-picker, qui
+              // effaçait ces dates au lieu de les griser.
               disabled:
-                "[&>button]:cursor-not-allowed [&>button]:text-stone-300 [&>button]:hover:bg-transparent",
+                "opacity-100! [&>button]:cursor-not-allowed [&>button]:text-stone-400 [&>button]:hover:bg-transparent",
             }}
           />
         </div>
