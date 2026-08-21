@@ -10,6 +10,8 @@ export type CustomerDetails = {
   lastname: string;
   email: string;
   phone: string;
+  /** Renseignée uniquement pour les prestations à domicile. */
+  address: string;
   notes: string;
 };
 
@@ -50,6 +52,7 @@ const emptyCustomer: CustomerDetails = {
   lastname: "",
   email: "",
   phone: "",
+  address: "",
   notes: "",
 };
 

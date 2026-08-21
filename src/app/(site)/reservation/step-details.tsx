@@ -17,6 +17,7 @@ function FieldError({ message }: { message?: string }) {
 
 export function StepDetails() {
   const bookingFor = useBookingStore((s) => s.bookingFor);
+  const service = useBookingStore((s) => s.service);
   const customer = useBookingStore((s) => s.customer);
   const setCustomer = useBookingStore((s) => s.setCustomer);
   const beneficiary = useBookingStore((s) => s.beneficiary);
@@ -29,7 +30,9 @@ export function StepDetails() {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const nextCustomerErrors = validateCustomer(customer);
+    const nextCustomerErrors = validateCustomer(customer, {
+      requiresAddress: service?.requiresAddress,
+    });
     const nextBeneficiaryErrors =
       bookingFor === "other" ? validateBeneficiary(beneficiary) : {};
 
@@ -184,6 +187,31 @@ export function StepDetails() {
           <FieldError message={customerErrors.phone} />
         </div>
       </div>
+
+      {/* Prestation à domicile : c'est chez le client que la séance a lieu. */}
+      {service?.requiresAddress && (
+        <div>
+          <label
+            htmlFor="address"
+            className="mb-1.5 block text-sm font-medium text-stone-600"
+          >
+            Adresse du rendez-vous
+          </label>
+          <textarea
+            id="address"
+            rows={2}
+            required
+            placeholder="Numéro et rue, code postal, ville"
+            value={customer.address}
+            onChange={(e) => setCustomer({ address: e.target.value })}
+            className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none transition-colors placeholder:text-stone-400 focus:border-sage-500"
+          />
+          <p className="mt-2 text-xs leading-relaxed text-stone-500">
+            La séance se déroule chez vous : merci d’indiquer l’adresse exacte.
+          </p>
+          <FieldError message={customerErrors.address} />
+        </div>
+      )}
 
       <div>
         <label

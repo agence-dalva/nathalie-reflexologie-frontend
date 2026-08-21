@@ -62,6 +62,7 @@ export function NewBookingModal({
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [status, setStatus] = useState<"idle" | "loading">("idle");
   const [error, setError] = useState<string | null>(null);
@@ -90,6 +91,7 @@ export function NewBookingModal({
     setLastname("");
     setEmail("");
     setPhone("");
+    setAddress("");
     setNotes("");
     setError(null);
   }
@@ -106,6 +108,7 @@ export function NewBookingModal({
         customerLastname: lastname,
         customerEmail: email,
         customerPhone: phone || undefined,
+        address: requiresAddress ? address.trim() : undefined,
         notes: notes.trim(),
       });
       reset();
@@ -121,6 +124,9 @@ export function NewBookingModal({
   }
 
   const selectedAsDate = date ? new Date(`${date}T00:00:00`) : undefined;
+  const requiresAddress = Boolean(
+    services.find((s) => s.id === serviceId)?.requiresAddress,
+  );
 
   return (
     <Modal open={open} onClose={onClose} title="Nouveau rendez-vous" maxWidth="max-w-3xl">
@@ -289,6 +295,20 @@ export function NewBookingModal({
                 />
               </div>
             </div>
+            {requiresAddress && (
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-stone-600">
+                  Adresse du rendez-vous
+                </label>
+                <textarea
+                  rows={2}
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="Numéro et rue, code postal, ville"
+                  className="w-full rounded-xl border border-sage-200 bg-white px-4 py-3 text-stone-800 outline-none placeholder:text-stone-400 focus:border-sage-500"
+                />
+              </div>
+            )}
             <div>
               <label className="mb-1.5 block text-sm font-medium text-stone-600">
                 Motif
@@ -315,6 +335,7 @@ export function NewBookingModal({
             !lastname ||
             !email ||
             !notes.trim() ||
+            (requiresAddress && !address.trim()) ||
             status === "loading"
           }
           className="w-full"

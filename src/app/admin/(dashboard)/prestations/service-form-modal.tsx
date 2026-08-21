@@ -23,6 +23,7 @@ function toFormState(service: Service | null): ServiceInput {
     bufferMinutes: service?.bufferMinutes ?? 15,
     price: service ? Number(service.price) : 0,
     active: service?.active ?? true,
+    requiresAddress: service?.requiresAddress ?? false,
   };
 }
 
@@ -147,6 +148,18 @@ export function ServiceFormModal({
             className="h-4 w-4 rounded border-sage-300 accent-sage-600 focus:ring-sage-500"
           />
           Prestation active (visible sur le site)
+        </label>
+
+        <label className="flex items-center gap-2 text-sm text-stone-600">
+          <input
+            type="checkbox"
+            checked={form.requiresAddress ?? false}
+            onChange={(e) =>
+              setForm((f) => ({ ...f, requiresAddress: e.target.checked }))
+            }
+            className="h-4 w-4 rounded border-sage-300 accent-sage-600 focus:ring-sage-500"
+          />
+          Prestation à domicile (adresse du client demandée)
         </label>
 
         {error && <p className="text-sm text-red-600">{error}</p>}

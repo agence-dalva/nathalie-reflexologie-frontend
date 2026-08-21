@@ -73,6 +73,17 @@ export function BookingDetailModal({
               />
               <Row label="Tarif" value={formatPrice(booking.service.price)} />
             </div>
+            {/* Séance à domicile : l'adresse renseignée par le client. */}
+            {booking.address && (
+              <div className="mt-4 border-t border-sage-100 pt-4">
+                <p className="text-[0.68rem] font-medium tracking-wide text-stone-400 uppercase">
+                  Adresse du rendez-vous
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-stone-700">
+                  {booking.address}
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="rounded-2xl border border-sage-100 bg-sage-50/50 p-6">

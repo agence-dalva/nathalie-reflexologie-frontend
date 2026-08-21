@@ -21,6 +21,11 @@ export const customerSchema = z.object({
   notes: z.string().trim().min(1, "Le motif est requis"),
 });
 
+/** Prestation à domicile : l'adresse de la séance devient obligatoire. */
+export const customerAtHomeSchema = customerSchema.extend({
+  address: z.string().trim().min(1, "L'adresse est requise"),
+});
+
 export const beneficiarySchema = z.object({
   firstname: requiredName,
   lastname: requiredName,
@@ -41,8 +46,12 @@ function toFieldErrors(error: z.ZodError | undefined): FieldErrors {
   return errors;
 }
 
-export function validateCustomer(customer: unknown): FieldErrors {
-  return toFieldErrors(customerSchema.safeParse(customer).error);
+export function validateCustomer(
+  customer: unknown,
+  options: { requiresAddress?: boolean } = {},
+): FieldErrors {
+  const schema = options.requiresAddress ? customerAtHomeSchema : customerSchema;
+  return toFieldErrors(schema.safeParse(customer).error);
 }
 
 export function validateBeneficiary(beneficiary: unknown): FieldErrors {

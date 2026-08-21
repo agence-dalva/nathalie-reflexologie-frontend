@@ -9,6 +9,8 @@ export type Service = {
   price: string;
   active: boolean;
   order: number;
+  /** Prestation à domicile : l'adresse du client est demandée à la réservation. */
+  requiresAddress: boolean;
 };
 
 export type Timeslot = {
@@ -26,6 +28,7 @@ export type Booking = {
   beneficiaryFirstname: string | null;
   beneficiaryLastname: string | null;
   beneficiaryPhone: string | null;
+  address: string | null;
   notes: string | null;
   startsAt: string;
   endsAt: string;
@@ -198,6 +201,7 @@ export function createBooking(
     beneficiaryFirstname?: string;
     beneficiaryLastname?: string;
     beneficiaryPhone?: string;
+    address?: string;
     notes: string;
   },
   idempotencyKey: string,
@@ -260,6 +264,7 @@ export type ServiceInput = {
   bufferMinutes?: number;
   price: number;
   active?: boolean;
+  requiresAddress?: boolean;
 };
 
 export function createService(payload: ServiceInput) {
@@ -440,6 +445,7 @@ export function createBookingAdmin(payload: {
   customerLastname: string;
   customerEmail: string;
   customerPhone?: string;
+  address?: string;
   notes: string;
 }) {
   return apiFetch<Booking>("/bookings/admin", {

@@ -53,6 +53,9 @@ export function StepConfirmation() {
             bookingFor === "other" ? beneficiary.lastname || undefined : undefined,
           beneficiaryPhone:
             bookingFor === "other" ? beneficiary.phone || undefined : undefined,
+          address: service!.requiresAddress
+            ? customer.address.trim()
+            : undefined,
           notes: customer.notes,
         },
         idempotencyKey,
@@ -126,6 +129,16 @@ export function StepConfirmation() {
             {customer.phone && <Row label="Téléphone" value={customer.phone} />}
           </div>
         </div>
+        {service.requiresAddress && customer.address && (
+          <div className="border-t border-sage-100 pt-4">
+            <p className="text-[0.68rem] font-medium tracking-wide text-stone-400 uppercase">
+              Adresse du rendez-vous
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-stone-700">
+              {customer.address}
+            </p>
+          </div>
+        )}
         {customer.notes && (
           <div className="border-t border-sage-100 pt-4">
             <p className="text-[0.68rem] font-medium tracking-wide text-stone-400 uppercase">
