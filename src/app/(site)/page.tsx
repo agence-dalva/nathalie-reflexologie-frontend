@@ -250,15 +250,13 @@ export default function HomePage() {
             </Reveal>
             <Reveal variant="blur" delay={0.15} duration={1.1}>
               <p className="mt-6 font-display text-3xl leading-[1.3] font-light text-cream sm:text-[2.5rem]">
-                Offrez-vous un moment de détente dans un cadre calme et
-                apaisant, propice au lâcher-prise et à la libération des
-                tensions.
+                Offrez-vous un moment de détente !
               </p>
             </Reveal>
             <Reveal variant="fade" delay={0.3}>
               <p className="mt-6 max-w-md leading-relaxed text-sage-200">
-                Un espace chaleureux et cocooning, pensé pour vous offrir un
-                moment de détente et de bien-être, le temps d&apos;une séance.
+                Dans un cadre calme et apaisant, propice au lâcher-prise et à la
+                libération des tensions.
               </p>
             </Reveal>
           </div>

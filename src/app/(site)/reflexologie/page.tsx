@@ -46,12 +46,12 @@ export default function ReflexologiePage() {
       {/* Page hero */}
       <section className="relative -mt-28 flex min-h-[70vh] items-end overflow-hidden">
         <Image
-          src="/images/reflexologie/reflexologie.jpg"
-          alt="Nathalie OHL lors d'une séance de réflexologie plantaire"
+          src="/images/reflexologie/cabinet1.png"
+          alt="Le cabinet de réflexologie de Nathalie OHL à Altkirch"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[50%_30%]"
+          className="object-cover object-[50%_45%]"
         />
         <div className="absolute inset-0 bg-linear-to-t from-sage-900/80 via-sage-900/30 to-sage-900/40" />
         <Container className="relative z-10 w-full pb-20">
