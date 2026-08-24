@@ -24,7 +24,14 @@ const dateFormatter = new Intl.DateTimeFormat("fr-FR", {
   timeZone: "Europe/Paris",
 });
 
-type Filter = "upcoming" | "past" | "all";
+/** Date de prise du rendez-vous, affichée là où la liste est triée dessus. */
+const bookedOnFormatter = new Intl.DateTimeFormat("fr-FR", {
+  day: "numeric",
+  month: "short",
+  timeZone: "Europe/Paris",
+});
+
+type Filter = "upcoming" | "past" | "cancelled" | "all";
 
 export default function AdminBookingsPage() {
   const [bookings, setBookings] = useState<Booking[] | null>(null);
@@ -54,13 +61,29 @@ export default function AdminBookingsPage() {
 
   const filtered = useMemo(() => {
     if (!bookings) return null;
-    return bookings
-      .filter((b) => {
-        if (filter === "upcoming") return new Date(b.startsAt).getTime() >= now;
-        if (filter === "past") return new Date(b.startsAt).getTime() < now;
-        return true;
-      })
-      .sort((a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime());
+    const kept = bookings.filter((b) => {
+      const isCancelled = b.status === "CANCELLED";
+      if (filter === "cancelled") return isCancelled;
+      if (filter === "all") return true;
+      // Les annulations ont leur propre onglet : elles n'encombrent plus
+      // ni la liste à venir ni l'historique.
+      if (isCancelled) return false;
+      return filter === "upcoming"
+        ? new Date(b.startsAt).getTime() >= now
+        : new Date(b.startsAt).getTime() < now;
+    });
+
+    // « À venir » et « Annulés » se lisent par date de prise de rendez-vous,
+    // la plus récente en haut : c'est ce qui vient de tomber qui compte.
+    if (filter === "upcoming" || filter === "cancelled") {
+      return kept.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      );
+    }
+    return kept.sort(
+      (a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime(),
+    );
   }, [bookings, filter, now]);
 
   async function handleCancel(id: number) {
@@ -93,6 +116,7 @@ export default function AdminBookingsPage() {
           [
             { key: "upcoming", label: "À venir" },
             { key: "past", label: "Passés" },
+            { key: "cancelled", label: "Annulés" },
             { key: "all", label: "Tous" },
           ] as const
         ).map((f) => (
@@ -123,7 +147,15 @@ export default function AdminBookingsPage() {
 
       {filtered !== null && filtered.length === 0 && (
         <p className="mt-10 text-center text-stone-400">
-          Aucun rendez-vous {filter === "upcoming" ? "à venir" : filter === "past" ? "passé" : ""}.
+          Aucun rendez-vous{" "}
+          {filter === "upcoming"
+            ? "à venir"
+            : filter === "past"
+              ? "passé"
+              : filter === "cancelled"
+                ? "annulé"
+                : ""}
+          .
         </p>
       )}
 
@@ -171,9 +203,16 @@ export default function AdminBookingsPage() {
                     </p>
                   )}
                 </div>
-                <span className="text-sm text-stone-500 capitalize">
-                  {dateFormatter.format(new Date(booking.startsAt))}
-                </span>
+                <div className="text-sm text-stone-500">
+                  <span className="capitalize">
+                    {dateFormatter.format(new Date(booking.startsAt))}
+                  </span>
+                  {(filter === "upcoming" || filter === "cancelled") && (
+                    <p className="text-xs text-stone-400">
+                      pris le {bookedOnFormatter.format(new Date(booking.createdAt))}
+                    </p>
+                  )}
+                </div>
                 <span>
                   <StatusBadge status={booking.status} />
                 </span>

@@ -34,6 +34,8 @@ export type Booking = {
   endsAt: string;
   status: "CONFIRMED" | "CANCELLED";
   cancelToken: string;
+  /** Date de prise du rendez-vous, distincte de la date de la séance. */
+  createdAt: string;
   service: Service;
 };
 
