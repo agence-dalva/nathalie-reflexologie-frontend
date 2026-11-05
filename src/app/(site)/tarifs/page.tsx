@@ -13,7 +13,7 @@ import { formatDuration, formatPrice } from "@/lib/format";
 export const metadata: Metadata = {
   title: "Tarifs",
   description:
-    "Découvrez les tarifs des séances de réflexologie plantaire, palmaire, crânio-faciale et massage assis à Altkirch.",
+    "Découvrez les tarifs des séances de réflexologie plantaire, palmaire, crânio-faciale, ainsi que des massages (drainage lymphatique manuel, massage assis) à Altkirch.",
 };
 
 // Le backend n'est pas forcément joignable au moment du build (déploiements découplés) :
@@ -57,17 +57,6 @@ const palmaireSlides = [
   },
 ];
 
-const massageAssisSlides = [
-  {
-    src: "/images/tarifs/massage-assis/Massageassis1.png",
-    alt: "Massage assis sur chaise ergonomique",
-  },
-  {
-    src: "/images/tarifs/massage-assis/Massageassis2.png",
-    alt: "Massage assis sur chaise ergonomique",
-  },
-];
-
 const featuredImagePositions: Record<string, string> = {
   "Réflexologie palmaire": "object-[65%_0%]",
 };
@@ -89,7 +78,6 @@ export default async function TarifsPage() {
     .filter((s): s is Service => Boolean(s));
   const featuredIds = new Set(featured.map((s) => s.id));
   const otherServices = services.filter((s) => !featuredIds.has(s.id));
-  const massageAssisService = services.find((s) => s.name === "Massage assis");
 
   return (
     <>
@@ -216,6 +204,18 @@ export default async function TarifsPage() {
                 </RevealItem>
               ))}
             </RevealGroup>
+            <Reveal delay={0.1}>
+              <p className="mt-10 text-sm text-sage-200">
+                Envie d&apos;en savoir plus sur le drainage lymphatique ou le
+                massage assis ?{" "}
+                <Link
+                  href="/massages"
+                  className="font-medium text-cream underline-offset-4 hover:underline"
+                >
+                  Découvrir les massages →
+                </Link>
+              </p>
+            </Reveal>
           </Container>
         </section>
       )}
@@ -362,63 +362,8 @@ export default async function TarifsPage() {
         </Container>
       </section>
 
-      {/* Massage assis highlight */}
-      <section className="bg-[#5d7c67] py-24 sm:py-32">
-        <Container className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-          <Reveal
-            variant="blur"
-            className="relative aspect-4/5 lg:order-2"
-          >
-            <ImageSlider
-              images={massageAssisSlides}
-              className="h-full rounded-2xl shadow-[0_20px_45px_-15px_rgba(0,0,0,0.45)] ring-1 ring-cream/15"
-            />
-          </Reveal>
-          <div className="lg:order-1">
-            <Reveal>
-              <SectionHeading
-                eyebrow="Zoom sur une technique"
-                title="Le massage assis"
-                tone="light"
-              />
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="mt-6 leading-relaxed text-sage-100">
-                Le massage assis se pratique sur l&apos;ensemble de la partie
-                haute du corps — tête, nuque, cervicales, dos, bras et mains —
-                travaillée par un enchaînement précis de pressions, étirements,
-                percussions et balayages. Il a une action immédiate : une
-                sensation de relaxation générale et une détente physique et
-                mentale, qui élimine le stress et les tensions pour un bien-être
-                immédiat.
-              </p>
-            </Reveal>
-            <Reveal delay={0.2}>
-              <p className="mt-4 text-sm text-sage-300">
-                Massage effectué habillé, sur une chaise ergonomique.
-              </p>
-            </Reveal>
-            <Reveal delay={0.3}>
-              <div className="mt-8">
-                <LinkButton
-                  href={
-                    massageAssisService
-                      ? `/reservation?service=${massageAssisService.id}`
-                      : "/reservation"
-                  }
-                  variant="light"
-                  size="lg"
-                >
-                  Prendre rendez-vous
-                </LinkButton>
-              </div>
-            </Reveal>
-          </div>
-        </Container>
-      </section>
-
       {/* Gift card */}
-      <section className="py-24 text-center sm:py-32">
+      <section className="bg-cream-dark py-24 text-center sm:py-32">
         <Container className="max-w-2xl">
           <Reveal>
             <SectionHeading

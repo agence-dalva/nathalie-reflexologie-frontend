@@ -20,6 +20,7 @@ export const siteConfig = {
 export const navigation = [
   { href: "/", label: "Accueil" },
   { href: "/reflexologie", label: "Réflexologie" },
+  { href: "/massages", label: "Massages" },
   { href: "/tarifs", label: "Tarifs" },
   { href: "/a-propos", label: "À propos" },
   { href: "/contact", label: "Contact" },

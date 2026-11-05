@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }> = [
     { path: "/", priority: 1, changeFrequency: "weekly" },
     { path: "/reflexologie", priority: 0.9, changeFrequency: "monthly" },
+    { path: "/massages", priority: 0.9, changeFrequency: "monthly" },
     { path: "/tarifs", priority: 0.9, changeFrequency: "monthly" },
     { path: "/a-propos", priority: 0.7, changeFrequency: "monthly" },
     { path: "/contact", priority: 0.7, changeFrequency: "monthly" },

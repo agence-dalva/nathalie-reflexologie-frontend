@@ -77,7 +77,7 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-10 lg:flex">
+        <nav className="hidden items-center gap-7 lg:flex xl:gap-10">
           {navigation.map((item) => {
             const active =
               item.href === "/"
