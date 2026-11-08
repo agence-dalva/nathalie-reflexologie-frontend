@@ -31,6 +31,8 @@ type BookingState = {
   beneficiary: BeneficiaryDetails;
   customer: CustomerDetails;
   idempotencyKey: string;
+  /** Vrai une fois la réservation enregistrée, jusqu'au prochain parcours. */
+  bookingConfirmed: boolean;
 
   setService: (service: Service) => void;
   setSelectedDate: (date: string) => void;
@@ -43,6 +45,12 @@ type BookingState = {
   /** Revient à l'étape précédente réellement visitée (pas toujours "service"). */
   goBack: () => void;
   reset: () => void;
+  /**
+   * À appeler dès que l'API a enregistré la réservation : la clé
+   * d'idempotence est consommée, la suivante doit en avoir une neuve, et
+   * l'historique est vidé pour qu'aucun « Retour » ne rejoue ce parcours.
+   */
+  completeBooking: () => void;
   /** Force-réapplique une prestation présélectionnée (ex: lien "Réserver" depuis /tarifs) même si un booking était déjà en cours. */
   applyPreselectedService: (service: Service) => void;
 };
@@ -78,6 +86,7 @@ export const useBookingStore = create<BookingState>((set, get) => ({
   beneficiary: emptyBeneficiary,
   customer: emptyCustomer,
   idempotencyKey: newIdempotencyKey(),
+  bookingConfirmed: false,
 
   setService: (service) =>
     set((state) => ({
@@ -124,6 +133,13 @@ export const useBookingStore = create<BookingState>((set, get) => ({
       beneficiary: emptyBeneficiary,
       customer: emptyCustomer,
       idempotencyKey: newIdempotencyKey(),
+      bookingConfirmed: false,
+    }),
+  completeBooking: () =>
+    set({
+      bookingConfirmed: true,
+      history: [],
+      idempotencyKey: newIdempotencyKey(),
     }),
   applyPreselectedService: (service) =>
     set({
@@ -134,5 +150,7 @@ export const useBookingStore = create<BookingState>((set, get) => ({
       beneficiary: emptyBeneficiary,
       step: "slot",
       history: [],
+      idempotencyKey: newIdempotencyKey(),
+      bookingConfirmed: false,
     }),
 }));

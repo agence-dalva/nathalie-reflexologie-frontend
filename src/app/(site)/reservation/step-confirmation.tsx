@@ -26,12 +26,13 @@ export function StepConfirmation() {
     beneficiary,
     customer,
     idempotencyKey,
+    bookingConfirmed: confirmed,
+    completeBooking,
     goBack,
     reset,
   } = useBookingStore();
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
-  const [confirmed, setConfirmed] = useState(false);
 
   if (!service || !selectedSlot) return null;
 
@@ -60,7 +61,7 @@ export function StepConfirmation() {
         },
         idempotencyKey,
       );
-      setConfirmed(true);
+      completeBooking();
     } catch (error) {
       setStatus("idle");
       setErrorMessage(
